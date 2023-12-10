@@ -14,7 +14,7 @@ document.addEventListener('keyup', keyUp)
 
 
 /**
- * This function detects the key code, if equal to one of the values of array - keyboard property is set to true otherwise false
+ * This function detects the key code, if equal to one of the values - keyboard property is set to true
  * @param {object} e - the keydown event object is passed
  */
 function keyDown(e) {
@@ -36,6 +36,10 @@ function keyDown(e) {
 }
 
 
+/**
+ * this function checks for equality in the released key - if true keyboard property is set to false
+ * @param {object} e - the keydown event object is passed 
+ */
 function keyUp(e) {
     if (e.code === 'ArrowRight') {
         keyboard.RIGHT = false;

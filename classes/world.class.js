@@ -27,7 +27,7 @@ class World {
     }
 
     /**
-     * save all properties from world in all movable Objects in seperate world property
+     * save all properties from world in character object in seperate world property
      */
     setWorld() {
         this.character.world = this;
@@ -53,8 +53,23 @@ class World {
         });
     }
     
-    //MovableObject
+    /**
+     * draw image for the current object and mirror canvas image if object is moved to the left
+     * @param {string} mo - MovableObject Object
+     */
     addToMap(mo) {
+        if (mo.otherDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.width, 0);
+            this.ctx.scale(-1, 1);
+            mo.x = mo.x * -1;
+        }
+        // mo is inserted mirrored
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        // reset the canvas context to default of saved context before mirroring the context except the mo
+        if (mo.otherDirection) {
+            mo.x = mo.x * -1;
+            this.ctx.restore();
+        }
     }
 }

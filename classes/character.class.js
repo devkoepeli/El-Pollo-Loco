@@ -28,6 +28,7 @@ class Character extends MovableObject {
         this.y = 135;
         this.width = 160;
         this.height = 300;
+        this.speed = 1.75;
 
         this.animate();
     }
@@ -38,11 +39,29 @@ class Character extends MovableObject {
     
     animate() {
         setInterval(() => {
-            let i = this.currentImage % this.IMAGES_WALKING.length; 
-            // let i = 0 / 6 = 0 Rest 0; 1 / 6 = 0 Rest 1; 2 / 6 = 0 Rest 2; 5 / 6 = 0 Rest 5; 6 / 6 = 1 Rest 0; 7 / 6 = 1 Rest 1; ...
-            let path = this.IMAGES_WALKING[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-        }, 100);
+            if (this.world.keyboard.RIGHT) {
+                this.x += this.speed;
+                this.otherDirection = false;
+            }
+        }, 1000 / 120);
+
+        setInterval(() => {
+            if (this.world.keyboard.LEFT) {
+                this.x -= this.speed;
+                this.otherDirection = true;
+            }
+        }, 1000 / 120);
+
+        setInterval(() => {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                // walk animation
+                let i = this.currentImage % this.IMAGES_WALKING.length; 
+                // let i = 0 / 6 = 0 Rest 0; 1 / 6 = 0 Rest 1; 2 / 6 = 0 Rest 2; 5 / 6 = 0 Rest 5; 6 / 6 = 1 Rest 0; 7 / 6 = 1 Rest 1; ...
+                let path = this.IMAGES_WALKING[i];
+                this.img = this.imageCache[path];
+                this.currentImage++;
+            }
+        }, 90);
     }
+
 }
