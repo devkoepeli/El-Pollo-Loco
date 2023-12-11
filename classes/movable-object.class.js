@@ -41,7 +41,7 @@ class MovableObject {
     }
 
     /**
-     * changes the images for effect of the walk animation
+     * changes the images for animation effect
      * @param {array} images - array with path of images
      */
     playAnimation(images) {
