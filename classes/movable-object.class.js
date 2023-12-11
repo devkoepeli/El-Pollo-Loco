@@ -39,5 +39,17 @@ class MovableObject {
             }
         }, 1000 / 120);
     }
+
+    /**
+     * changes the images for effect of the walk animation
+     * @param {array} images - array with path of images
+     */
+    playAnimation(images) {
+        let i = this.currentImage % images.length; 
+        // let i = 0 / 6 = 0 Rest 0; 1 / 6 = 0 Rest 1; 2 / 6 = 0 Rest 2; 5 / 6 = 0 Rest 5; 6 / 6 = 1 Rest 0; 7 / 6 = 1 Rest 1; ...
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
 }
 
