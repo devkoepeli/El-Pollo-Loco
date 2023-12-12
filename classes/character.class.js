@@ -32,6 +32,7 @@ class Character extends MovableObject {
     ];
     world;
     sound_walking = new Audio('./audio/running.mp3');
+    sound_jumping = new Audio('./audio/jumping.mp3');
 
     constructor() {
         // first image needs to be loaded
@@ -54,22 +55,23 @@ class Character extends MovableObject {
         setInterval(() => {
             this.sound_walking.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speedX;
+                this.moveRight();
                 this.otherDirection = false;
                 this.sound_walking.play();
             }
 
             if (this.world.keyboard.LEFT && this.x > -600) {
-                this.x -= this.speedX;
+                this.moveLeft();
                 this.otherDirection = true;
                 this.sound_walking.play();
             }
 
             // console.log('speedY', this.speedY);
              
-            // y-coordinate gets set to 0 then gravitation force has an effect
-            if (this.world.keyboard.UP || this.world.keyboard.SPACE) {
-                this.speedY = 5;
+            // y-coordinate gets subtracted by 5 then gravitation force has an effect
+            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.jump();
+                this.sound_jumping.play();
             }
 
             this.world.camera_x = -this.x + 100;
