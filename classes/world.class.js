@@ -55,17 +55,28 @@ class World {
      */
     addToMap(mo) {
         if (mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0);
-            this.ctx.scale(-1, 1);
-            mo.x = mo.x * -1;
+            this.flipImage(mo);
         }
         // mo is inserted mirrored
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+
+        mo.drawObject(this.ctx);
+        mo.drawFrame(this.ctx);
+
         // reset the canvas context to default of saved context before mirroring the context except the mo
         if (mo.otherDirection) {
-            mo.x = mo.x * -1;
-            this.ctx.restore();
+            this.flipImageBack(mo);
         }
+    }
+
+    flipImage(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+
+    flipImageBack(mo) {
+        mo.x = mo.x * -1;
+        this.ctx.restore();
     }
 }
