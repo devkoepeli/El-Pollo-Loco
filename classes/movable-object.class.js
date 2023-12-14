@@ -16,6 +16,8 @@ class MovableObject {
         bottom: 0,
         left: 0
     };
+    energy = 100;
+    lastHit = 0;
 
 
     applyGravitation() {
@@ -89,6 +91,31 @@ class MovableObject {
             // obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
+    /**
+     * subtract 5 of energy level with every hit from enemies and save the time of the current hit
+     */
+    hit() {
+        this.energy -= 5;
+        this.lastHit = new Date().getTime();
+    }
+
+    isAlive() {
+        return this.energy > 0;
+    }
+
+    isDead() {
+        return this.energy == 0;
+    }
+
+    /**
+     * calculate time difference in ms between current time and time of last hit
+     * @returns - boolean value
+     */
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit;
+        return timePassed < 300;
+    }
+
     moveRight() {
         this.x += this.speedX;
     }
@@ -113,4 +140,3 @@ class MovableObject {
         this.speedY = 10;
     }
 }
-
