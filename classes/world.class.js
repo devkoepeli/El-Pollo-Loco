@@ -12,6 +12,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollision();
     }
 
     /**
@@ -19,6 +20,16 @@ class World {
      */
     setWorld() {
         this.character.world = this;
+    }
+
+    checkCollision() {
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    console.log('Collision with Character:', enemy);
+                }
+            })
+        }, 500);
     }
 
     /**
@@ -61,6 +72,7 @@ class World {
 
         mo.drawObject(this.ctx);
         mo.drawFrame(this.ctx);
+        mo.drawFrameWithoutOffset(this.ctx);
 
         // reset the canvas context to default of saved context before mirroring the context except the mo
         if (mo.otherDirection) {

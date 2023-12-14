@@ -10,6 +10,13 @@ class MovableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 0.25;
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    };
+
 
     applyGravitation() {
         setInterval(() => {
@@ -46,11 +53,40 @@ class MovableObject {
     }
 
     drawFrame(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = '3';
-        ctx.strokeStyle = 'black';
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
+        if (this.checkObject()) {
+            ctx.beginPath();
+            ctx.lineWidth = '3';
+            ctx.strokeStyle = 'black';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    drawFrameWithoutOffset(ctx) {
+        if (this.checkObject()) {
+            ctx.beginPath();
+            ctx.lineWidth = '3';
+            ctx.strokeStyle = 'red';
+            ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - (this.offset.right * 2), this.height - this.offset.top - this.offset.bottom);
+            ctx.stroke();
+        }
+    }
+
+    checkObject() {
+        return this instanceof Character || this instanceof Endboss || this instanceof Chicken || this instanceof Coin;
+    }
+
+    /**
+     * is character colliding with e.g. Chicken
+     * @param {object} mo - stands for other movable objects
+     * @returns boolean value
+     */
+    isColliding(mo) {
+        return (this.x + this.width - this.offset.right) > (mo.x + mo.offset.left) &&
+            (this.y + this.height - this.offset.bottom) > (mo.y + mo.offset.top) &&
+            (this.x + this.offset.left) < (mo.x + mo.width - mo.offset.right) &&
+            (this.y + this.offset.top) < (mo.y + mo.height - mo.offset.bottom) // &&
+            // obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
     moveRight() {
@@ -66,7 +102,7 @@ class MovableObject {
      * @param {array} images - array with path of images
      */
     playAnimation(images) {
-        let i = this.currentImage % images.length; 
+        let i = this.currentImage % images.length;
         // let i = 0 / 6 = 0 Rest 0; 1 / 6 = 0 Rest 1; 2 / 6 = 0 Rest 2; 5 / 6 = 0 Rest 5; 6 / 6 = 1 Rest 0; 7 / 6 = 1 Rest 1; ...
         let path = images[i];
         this.img = this.imageCache[path];
