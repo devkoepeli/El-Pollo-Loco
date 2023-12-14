@@ -99,12 +99,12 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 1000 / 120);
 
-        setInterval(() => { 
+        let interval = setInterval(() => { 
             if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                clearInterval()
+                clearInterval(interval);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {

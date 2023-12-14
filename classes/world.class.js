@@ -5,6 +5,9 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    healthStatusbar = new HealthStatusBar();
+    bottleStatusbar = new BottleStatusBar();
+    coinStatusbar = new CoinStatusBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -28,6 +31,7 @@ class World {
                 if (this.character.isColliding(enemy)) {
                     if (this.character.isAlive()) {
                         this.character.hit();
+                        this.healthStatusbar.setPercentage(this.character.energy);
                     }
                 }
             })
@@ -44,6 +48,14 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+
+        this.ctx.translate(-this.camera_x, 0);
+        // -------- space for fixed objects --------
+        this.addToMap(this.bottleStatusbar);
+        this.addToMap(this.healthStatusbar);
+        this.addToMap(this.coinStatusbar);
+        this.ctx.translate(this.camera_x, 0);
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
