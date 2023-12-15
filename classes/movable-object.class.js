@@ -4,12 +4,6 @@ class MovableObject extends DrawableObject{
     otherDirection = false;
     speedY = 0;
     acceleration = 0.25;
-    offset = {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-    };
     energy = 100;
     lastHit = 0;
 
@@ -22,8 +16,16 @@ class MovableObject extends DrawableObject{
         }, 1000 / 100);
     }
 
+    /**
+     * if instance is throwableobject - object should fall infinitely otherwise only to ground
+     * @returns - boolean value
+     */
     isAboveGround() {
-        return this.y < 135;
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
+            return this.y < 135;
+        }
     }
 
     /**

@@ -4,7 +4,13 @@ class DrawableObject {
     height;
     width;
     img;
-    imageCache = {};
+    imageCache = {};    
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    };
 
     loadImage(path) {
         this.img = new Image();
@@ -48,6 +54,6 @@ class DrawableObject {
     }
 
     checkObject() {
-        return this instanceof Character || this instanceof Endboss || this instanceof Chicken || this instanceof Coin;
+        return this instanceof Character || this instanceof Endboss || this instanceof Chicken || this instanceof Coin || this instanceof Bottle1 || this instanceof Bottle2 || this instanceof ThrowableObject;
     }
 }

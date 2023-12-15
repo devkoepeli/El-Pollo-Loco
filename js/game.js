@@ -33,6 +33,9 @@ function keyDown(e) {
     if (e.code === 'Space') {
         keyboard.SPACE = true;
     }
+    if (e.code === 'KeyD') {
+        keyboard.D = true;
+    }
 }
 
 
@@ -55,5 +58,8 @@ function keyUp(e) {
     }
     if (e.code === 'Space') {
         keyboard.SPACE = false;
+    }
+    if (e.code === 'KeyD') {
+        keyboard.D = false;
     }
 }
