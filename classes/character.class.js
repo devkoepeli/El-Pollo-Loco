@@ -53,6 +53,8 @@ class Character extends MovableObject {
     };
     sound_walking = new Audio('./audio/running.mp3');
     sound_jumping = new Audio('./audio/jumping.mp3');
+    sound_hurt = new Audio('./audio/hurt.mp3');
+    sound_dying = new Audio('./audio/dying.mp3');
 
     constructor() {
         // first image needs to be loaded
@@ -102,8 +104,10 @@ class Character extends MovableObject {
         let interval = setInterval(() => { 
             if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.sound_hurt.play();
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.sound_dying.play();
                 clearInterval(interval);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);

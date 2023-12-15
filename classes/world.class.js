@@ -6,12 +6,16 @@ class World {
     keyboard;
     camera_x = 0;
     healthStatusbar = new HealthStatusBar();
-    bottleStatusbar = new BottleStatusBar();
-    coinStatusbar = new CoinStatusBar();
+    bottleCounterImg = new BottleCounterImage();
+    coinCounterImg = new CoinCounterImage();
+    coinCounter = new Counter(105, 110);
+    bottleCounter = new Counter(200, 110);
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.ctx.font = "bold 40px serif";
+        this.ctx.fillStyle = '#fff';
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
@@ -41,12 +45,40 @@ class World {
     }
 
     checkCollisions() {
+        this.checkCollisionEnemies();
+        this.checkCollisionCoins();
+        this.checkCollisionBottles();
+    }
+
+    checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAlive()) {
                     this.character.hit();
                     this.healthStatusbar.setPercentage(this.character.energy);
                 }
+            }
+        })
+    }
+
+    checkCollisionCoins() {
+        this.level.coins.forEach((coin) => {
+            if (this.character.isColliding(coin)) {
+                let iOfCoin = this.level.coins.indexOf(coin);
+                coin.playSound();
+                this.level.coins.splice(iOfCoin, 1);
+                this.coinCounter.counter++;
+            }
+        })
+    }
+
+    checkCollisionBottles() {
+        this.level.bottles.forEach((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                let iOfBottle = this.level.bottles.indexOf(bottle);
+                bottle.playSound();
+                this.level.bottles.splice(iOfBottle, 1);
+                this.bottleCounter.counter++;
             }
         })
     }
@@ -64,9 +96,11 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         // -------- space for fixed objects --------
-        this.addToMap(this.bottleStatusbar);
         this.addToMap(this.healthStatusbar);
-        this.addToMap(this.coinStatusbar);
+        this.addToMap(this.bottleCounterImg);
+        this.addToMap(this.coinCounterImg);
+        this.ctx.fillText(this.coinCounter.counter, this.coinCounter.x, this.coinCounter.y);
+        this.ctx.fillText(this.bottleCounter.counter, this.bottleCounter.x, this.coinCounter.y);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
