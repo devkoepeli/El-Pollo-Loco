@@ -11,6 +11,7 @@ class World {
     coinCounter = new Counter(105, 110);
     bottleCounter = new Counter(200, 110);
     throwableObjects = [];
+    isThrowing = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -33,21 +34,33 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
-            this.checkThrowKey();
+            this.createThrowableObjects();
         }, 250);
     }
 
-    checkThrowKey() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 120);
+    /**
+     * create a TO for throwing a bottle and setting a timeout for the next bottle of 500ms
+     * Furthermore according to character direction throw bottle in the right direction
+     */
+    createThrowableObjects() {
+        if (this.keyboard.D && this.bottleCounter.counter > 0 && !this.isThrowing) {
+            this.isThrowing = true;
+
+            setTimeout(() => {
+                this.isThrowing = false
+            }, 500);
+
+            let isOtherDirection = this.character.otherDirection;
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 120, isOtherDirection);
             this.throwableObjects.push(bottle);
+            this.bottleCounter.counter--;
         }
     }
 
     checkCollisions() {
         this.checkCollisionEnemies();
-        this.checkCollisionCoins();
-        this.checkCollisionBottles();
+        this.increaseCoinCounter();
+        this.increaseBottleCounter();
     }
 
     checkCollisionEnemies() {
@@ -61,7 +74,7 @@ class World {
         })
     }
 
-    checkCollisionCoins() {
+    increaseCoinCounter() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
                 let iOfCoin = this.level.coins.indexOf(coin);
@@ -72,7 +85,7 @@ class World {
         })
     }
 
-    checkCollisionBottles() {
+    increaseBottleCounter() {
         this.level.bottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
                 let iOfBottle = this.level.bottles.indexOf(bottle);
