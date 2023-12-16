@@ -44,15 +44,20 @@ class ThrowableObject extends MovableObject {
         
         if (!this.otherDirection) {
             setInterval(() => {
-                this.x += this.speedX;
-                this.playAnimation(this.IMAGES_ROTATION);
+                // limit the throw animation to x < 2000
+                if (this.x < 3000) {
+                    this.x += this.speedX;
+                    this.playAnimation(this.IMAGES_ROTATION);
+                }
             }, 1000 / 60);
             this.sound_throwing.play();
         } else {
             this.x -= 80;
             setInterval(() => {
-                this.x -= this.speedX;
-                this.playAnimation(this.IMAGES_ROTATION);
+                if (this.x > -2000) {
+                    this.x -= this.speedX;
+                    this.playAnimation(this.IMAGES_ROTATION);
+                }
             }, 1000 / 60);
             this.sound_throwing.play();
         }
