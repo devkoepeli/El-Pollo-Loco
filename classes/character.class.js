@@ -55,6 +55,7 @@ class Character extends MovableObject {
     sound_jumping = new Audio('./audio/jumping.mp3');
     sound_hurt = new Audio('./audio/hurt.mp3');
     sound_dying = new Audio('./audio/dying.mp3');
+    intervals = [];
 
     constructor() {
         // first image needs to be loaded
@@ -75,8 +76,12 @@ class Character extends MovableObject {
     }
     
     animate() {
-        //walking
-        setInterval(() => {
+        this.moveInterval();
+        this.animateInterval();
+    }
+
+    moveInterval() {
+        let movingInterval = setInterval(() => {
             this.sound_walking.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
@@ -96,26 +101,50 @@ class Character extends MovableObject {
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
                 this.sound_jumping.play();
+                let collisionInterval = setInterval(() => {
+                    if (this.speedY <= 0) {
+                        this.world.checkCollisionFromTop();
+                    } 
+                    // clear collisionInterval right below the y-coord of the chicken
+                    if (this.y > 70) {
+                        clearInterval(collisionInterval);
+                    }
+                }, 100);
             }
 
             this.world.camera_x = -this.x + 100;
         }, 1000 / 120);
+        this.intervals.push(movingInterval);
+    }
 
-        let interval = setInterval(() => { 
+    animateInterval() {
+        let animationInterval = setInterval(() => { 
             if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.sound_hurt.play();
             } else if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                this.playAnimationOnce(this.IMAGES_DEAD);
                 this.sound_dying.play();
-                clearInterval(interval);
+                this.sound_walking.pause();
+                this.stopCharacter();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+                // this.stopCharacter();
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (!this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_IDLING);
             }
         }, 85);
+        this.intervals.push(animationInterval);
+    }
+
+    /**
+     * stop animation and movement of character before stopping completely the game
+     */
+    stopCharacter() {
+        for (const interval of this.intervals) {
+            clearInterval(interval);
+        }
     }
 }

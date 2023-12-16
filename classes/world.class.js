@@ -74,6 +74,19 @@ class World {
         })
     }
 
+    /**
+     * is character colliding with chicken from the top -> jumping on chicken
+     */
+    checkCollisionFromTop() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy instanceof Chicken && this.character.isColliding(enemy)) {
+                console.log('Character jumped on chicken');
+                let iOfEnemy = this.level.enemies.indexOf(enemy);
+                this.level.enemies.splice(iOfEnemy, 1);
+            }
+        })
+    }
+
     increaseCoinCounter() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
