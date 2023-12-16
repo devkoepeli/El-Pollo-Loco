@@ -75,7 +75,7 @@ class MovableObject extends DrawableObject{
     }
 
     /**
-     * changes the images for animation effect
+     * changes the images with remainder/modulo operator for animation effect
      * @param {array} images - array with path of images
      */
     playAnimation(images) {
@@ -86,7 +86,28 @@ class MovableObject extends DrawableObject{
         this.currentImage++;
     }
 
+    async playAnimationOnce(images) {
+        for (const image of images) {
+            await new Promise(resolve => setTimeout(() => {
+                let path = image;
+                this.img = this.imageCache[path];
+                resolve();
+            }, 150));
+        }
+        // this.stopGame();
+    }
+
     jump() {
         this.speedY = 10;
+    }
+
+    /**
+     * clear all intervals - intervals return a unique id with which one can access the specific interval
+     * e.g. animationInterval has the ID 10
+     */
+     stopGame() {
+        for (let i = 0; i < 1000; i++) {
+            window.clearInterval(i);
+        }
     }
 }
