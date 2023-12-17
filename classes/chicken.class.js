@@ -42,10 +42,17 @@ class Chicken extends MovableObject {
         }
     }
 
+    killChicken() {
+        this.energy = 0;
+        this.stopChickenAnimation();
+        this.img.src = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
+        this.makeChickenSplicable();
+    }
+
     /**
      * set isSplicable to true, so the chicken can be removed from the canvas
      */
-     makeChickenSplicable() {
+    makeChickenSplicable() {
         setTimeout(() => {
             this.isSplicable = true;
         }, 500);

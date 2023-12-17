@@ -46,7 +46,7 @@ class MovableObject extends DrawableObject{
      * subtract 5 of energy level with every hit from enemies and save the time of the current hit
      */
     hit() {
-        this.energy -= 5;
+        this.energy -= 2.5;
         this.lastHit = new Date().getTime();
     }
 

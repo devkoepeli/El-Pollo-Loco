@@ -79,7 +79,6 @@ class World {
                 }
             } else if (this.character.isAboveGround && this.character.speedY <= 0 && this.character.isColliding(enemy) && enemy.energy) {
                 this.isCollidingFromTop(enemy);
-                console.log(enemy);
             } else if (!enemy.energy) {
                 this.removeChicken(enemy);
             }
@@ -92,15 +91,12 @@ class World {
      */
     isCollidingFromTop(enemy) {
         if (enemy instanceof Chicken) {
-            enemy.energy = 0;
-            enemy.stopChickenAnimation();
-            enemy.img.src = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
-            enemy.makeChickenSplicable();
+            enemy.killChicken();
         } 
     }
 
     /**
-     * after chicken is dead the object gets removed from the array and therefore from the canvas
+     * after chicken is dead and splicable the object gets removed from the array and therefore from the canvas
      * @param {object} enemy - stands for the object with which a collision took place
      */
     removeChicken(enemy) {
