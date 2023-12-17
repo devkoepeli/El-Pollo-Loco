@@ -69,14 +69,42 @@ class World {
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             // if chicken is jumped on it is dead so therefore no harm to character until removed
-            if (this.character.isColliding(enemy) && enemy.energy) {
-                console.log('there is a collision');
+            if (!this.character.isAboveGround() && this.character.isColliding(enemy) && enemy.energy) {
                 if (this.character.isAlive()) {
                     this.character.hit();
                     this.healthStatusbar.setPercentage(this.character.energy);
                 }
+            } else if (this.character.isAboveGround && this.character.isColliding(enemy) && enemy.energy) {
+                this.isCollidingFromTop(enemy);
+                console.log(enemy.isSplicable);
+            } else if (!enemy.energy) {
+                this.removeChicken(enemy);
             }
         })
+    }
+
+    /**
+     * after collision was detected this function replaces the chicken image to dead
+     * @param {object} enemy - stands for the object with which a collision took place
+     */
+    isCollidingFromTop(enemy) {
+        if (enemy instanceof Chicken) {
+            enemy.energy = 0;
+            enemy.stopChickenAnimation();
+            enemy.img.src = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
+            enemy.makeChickenSplicable();
+        } 
+    }
+
+    /**
+     * after chicken is dead the object gets removed from the array and therefore from the canvas
+     * @param {object} enemy - stands for the object with which a collision took place
+     */
+    removeChicken(enemy) {
+        if (enemy.isSplicable) {
+            let iOfEnemy = this.level.enemies.indexOf(enemy);
+            this.level.enemies.splice(iOfEnemy, 1);
+        }
     }
 
     /**
@@ -96,6 +124,7 @@ class World {
                 this.level.enemies.splice(iOfEnemy, 1);
             }
         }
+        //isCollidingFromTop Fn schreiben, die laufend ausgeführt wird, statt nur eim character.jump();
     }
 
     chickenHitByBottle() {

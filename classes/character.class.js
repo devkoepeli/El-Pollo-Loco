@@ -101,15 +101,6 @@ class Character extends MovableObject {
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
                 this.sound_jumping.play();
-                let collisionInterval = setInterval(() => {
-                    if (this.speedY <= 0) {
-                        this.world.checkCollisionFromTop();
-                    } 
-                    // clear collisionInterval right below the y-coord of the chicken
-                    if (this.y > 70) {
-                        clearInterval(collisionInterval);
-                    }
-                }, 100);
             }
 
             this.world.camera_x = -this.x + 100;
