@@ -35,8 +35,6 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.createThrowableObjects();
-        }, 250);
-        setInterval(() => {
             this.chickenHitByBottle();
         }, 100);
     }
@@ -51,7 +49,7 @@ class World {
 
             setTimeout(() => {
                 this.isThrowing = false
-            }, 500);
+            }, 750);
 
             let isOtherDirection = this.character.otherDirection;
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 120, isOtherDirection);
@@ -66,6 +64,11 @@ class World {
         this.increaseBottleCounter();
     }
 
+    /**
+     * checking collision of character with enemies
+     * if first statement true, character gets hit
+     * if second statement true, chicken gets hit
+     */
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             // if chicken is jumped on it is dead so therefore no harm to character until removed
@@ -74,9 +77,9 @@ class World {
                     this.character.hit();
                     this.healthStatusbar.setPercentage(this.character.energy);
                 }
-            } else if (this.character.isAboveGround && this.character.isColliding(enemy) && enemy.energy) {
+            } else if (this.character.isAboveGround && this.character.speedY <= 0 && this.character.isColliding(enemy) && enemy.energy) {
                 this.isCollidingFromTop(enemy);
-                console.log(enemy.isSplicable);
+                console.log(enemy);
             } else if (!enemy.energy) {
                 this.removeChicken(enemy);
             }

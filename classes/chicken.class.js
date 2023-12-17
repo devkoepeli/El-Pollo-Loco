@@ -48,7 +48,6 @@ class Chicken extends MovableObject {
      makeChickenSplicable() {
         setTimeout(() => {
             this.isSplicable = true;
-            console.log('killed chicken isSplicable:', this.isSplicable);
         }, 500);
     }
 }
