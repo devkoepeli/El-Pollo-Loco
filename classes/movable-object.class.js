@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject{
     acceleration = 0.25;
     energy = 100;
     lastHit = 0;
+    isSplicable = false;
 
     applyGravitation() {
         setInterval(() => {
@@ -94,7 +95,7 @@ class MovableObject extends DrawableObject{
                 resolve();
             }, 150));
         }
-        // this.stopGame();
+        this.stopGame();
     }
 
     jump() {

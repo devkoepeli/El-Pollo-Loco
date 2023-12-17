@@ -36,6 +36,9 @@ class World {
             this.checkCollisions();
             this.createThrowableObjects();
         }, 250);
+        setInterval(() => {
+            this.chickenHitByBottle();
+        }, 100);
     }
 
     /**
@@ -65,7 +68,9 @@ class World {
 
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            // if chicken is jumped on it is dead so therefore no harm to character until removed
+            if (this.character.isColliding(enemy) && enemy.energy) {
+                console.log('there is a collision');
                 if (this.character.isAlive()) {
                     this.character.hit();
                     this.healthStatusbar.setPercentage(this.character.energy);
@@ -78,12 +83,30 @@ class World {
      * is character colliding with chicken from the top -> jumping on chicken
      */
     checkCollisionFromTop() {
-        this.level.enemies.forEach((enemy) => {
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            const enemy = this.level.enemies[i];
             if (enemy instanceof Chicken && this.character.isColliding(enemy)) {
-                console.log('Character jumped on chicken');
+                enemy.energy = 0;
+                enemy.stopChickenAnimation();
+                enemy.img.src = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
+                enemy.makeChickenSplicable();
+            }
+            if (enemy.isSplicable) {
                 let iOfEnemy = this.level.enemies.indexOf(enemy);
                 this.level.enemies.splice(iOfEnemy, 1);
             }
+        }
+    }
+
+    chickenHitByBottle() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (enemy.isColliding(bottle)) {
+                    let iOfEnemy = this.level.enemies.indexOf(enemy);
+                    this.level.enemies.splice(iOfEnemy, 1);
+                    console.log('chicken hit');
+                }
+            })
         })
     }
 
@@ -148,7 +171,7 @@ class World {
             this.addToMap(object)
         });
     }
-    
+
     /**
      * draw image for the current object and mirror canvas image if object is moved to the left
      * @param {string} mo - MovableObject Object
