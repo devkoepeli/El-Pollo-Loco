@@ -106,26 +106,6 @@ class World {
         }
     }
 
-    /**
-     * is character colliding with chicken from the top -> jumping on chicken
-     */
-    checkCollisionFromTop() {
-        for (let i = 0; i < this.level.enemies.length; i++) {
-            const enemy = this.level.enemies[i];
-            if (enemy instanceof Chicken && this.character.isColliding(enemy)) {
-                enemy.energy = 0;
-                enemy.stopChickenAnimation();
-                enemy.img.src = 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
-                enemy.makeChickenSplicable();
-            }
-            if (enemy.isSplicable) {
-                let iOfEnemy = this.level.enemies.indexOf(enemy);
-                this.level.enemies.splice(iOfEnemy, 1);
-            }
-        }
-        //isCollidingFromTop Fn schreiben, die laufend ausgeführt wird, statt nur eim character.jump();
-    }
-
     chickenHitByBottle() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
