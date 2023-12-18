@@ -3,12 +3,6 @@ let world;
 let keyboard = new Keyboard();
 
 
-function init() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-}
-
-
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp)
 
@@ -61,5 +55,43 @@ function keyUp(e) {
     }
     if (e.code === 'KeyD') {
         keyboard.D = false;
+    }
+}
+
+
+function startGame() {
+    const startScreen = document.getElementById('start-screen');
+    const canvas = document.getElementById('canvas');
+
+    startScreen.classList.add('d-none');
+    canvas.classList.remove('d-none');
+
+    initGame();
+}
+
+
+function initGame() {
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+}
+
+
+function showPopup(section) {
+    const controlDiv = document.getElementById('control-container');
+    const introductionDiv = document.getElementById('introduction-container');
+
+    if (section === 'control') {
+        controlDiv.innerHTML += controlOverviewHTML();
+    } else if (section === 'introduction') {
+        introductionDiv.innerHTML += introductionHTML();
+    }
+}
+
+
+function closePopUp(section) {
+    if (section === 'control') {
+        document.getElementById('control-overview').remove();
+    } else if (section === 'introduction') {
+        document.getElementById('introduction').remove();
     }
 }

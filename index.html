@@ -29,51 +29,29 @@
     <script src="classes/coin-counter-image.class.js"></script>
     <script src="classes/counter.class.js"></script>
     <script src="classes/bottle-counter-image.class.js"></script>
+    <script src="js/templates.js"></script>
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body>
 
     <div class="content">
         <h1>El Pollo Loco</h1>
 
-        <div class="canvas-container">
-            <img class="start-screen" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Startscreen">
-            <div class="start-navigation">
-                <span class="start-introduction">Introduction</span>
-                <div class="start-button-container">
-                    <button class="start-button">Start Game</button>
-                </div>
-                <span class="start-control">Game-Control</span>
-            </div>
-            
-            <canvas class="canvas" id="canvas" width="720" height="480"></canvas>
-        </div>
-
-        <div class="control-overview">
-            <h2 class="control-heading">Control Overview</h2>
-            <div class="control-keys-container">
-                <div class="control-keys-left">
-                    <div class="control-key">
-                        <img class="key-icon" src="./img/10_keys/key-right.png" alt="Key Arrow Right">
-                        <span class="key-info">Move Right</span>
+        <div id="canvas-container" class="canvas-container">
+            <div id="start-screen" class="start-screen">
+                <img class="start-screen-img" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Startscreen">
+                <div class="start-navigation">
+                    <span onclick="showPopup('introduction')" class="start-introduction">Introduction</span>
+                    <div class="start-button-container">
+                        <button onclick="startGame()" class="start-button">Start Game</button>
                     </div>
-                    <div class="control-key">
-                        <img class="key-icon" src="./img/10_keys/key-left.png" alt="Key Arrow Right">
-                        <span class="key-info">Move Left</span>
-                    </div>
-                </div>
-                <div class="control-keys-right">
-                    <div class="control-key">
-                        <img class="key-icon" src="./img/10_keys/key-d.png" alt="Key Arrow Right">
-                        <span class="key-info">Throw Salsa Bottle</span>
-                    </div>
-                    <div class="control-key">
-                        <img class="key-icon-space" src="./img/10_keys/key-space.png" alt="Key Arrow Right">
-                        <span class="key-info">Jump</span>
-                    </div>
+                    <span onclick="showPopup('control')" class="start-control">Game-Control</span>
                 </div>
             </div>
+            <div id="control-container"></div>
+            <div id="introduction-container"></div>
+            <canvas class="canvas d-none" id="canvas" width="720" height="480"></canvas>
         </div>
     </div>
 
