@@ -78,51 +78,55 @@ class Character extends MovableObject {
 
     moveInterval() {
         let movingInterval = setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                sounds.character_walking.play();
+            if (!gameIsPaused) {
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                    sounds.character_walking.play();
+                }
+    
+                if (this.world.keyboard.LEFT && this.x > -600) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                    sounds.character_walking.play();
+                }
+    
+                if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                    sounds.character_walking.pause();
+                }
+    
+                // console.log('speedY', this.speedY);
+                 
+                // y-coordinate gets subtracted by 5 then gravitation force has an effect
+                if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                    this.jump();
+                    sounds.character_jumping.play();
+                }
+    
+                this.world.camera_x = -this.x + 100;
             }
-
-            if (this.world.keyboard.LEFT && this.x > -600) {
-                this.moveLeft();
-                this.otherDirection = true;
-                sounds.character_walking.play();
-            }
-
-            if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
-                sounds.character_walking.pause();
-            }
-
-            // console.log('speedY', this.speedY);
-             
-            // y-coordinate gets subtracted by 5 then gravitation force has an effect
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jump();
-                sounds.character_jumping.play();
-            }
-
-            this.world.camera_x = -this.x + 100;
         }, 1000 / 120);
         this.intervals.push(movingInterval);
     }
 
     animateInterval() {
         let animationInterval = setInterval(() => { 
-            if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-                sounds.character_hurt.play();
-            } else if (this.isDead()) {
-                this.playAnimationOnce(this.IMAGES_DEAD);
-                sounds.character_walking.pause();
-                sounds.character_dying.play();
-                this.stopCharacter();
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (!this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_IDLING);
+            if (!gameIsPaused) {
+                if (this.isHurt()) {
+                    this.playAnimation(this.IMAGES_HURT);
+                    sounds.character_hurt.play();
+                } else if (this.isDead()) {
+                    this.playAnimationOnce(this.IMAGES_DEAD);
+                    sounds.character_walking.pause();
+                    sounds.character_dying.play();
+                    this.stopCharacter();
+                } else if (this.isAboveGround()) {
+                    this.playAnimation(this.IMAGES_JUMPING);
+                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (!this.isAboveGround()) {
+                    this.playAnimation(this.IMAGES_IDLING);
+                }
             }
         }, 85);
         this.intervals.push(animationInterval);

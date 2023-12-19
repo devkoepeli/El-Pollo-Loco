@@ -33,9 +33,11 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollisions();
-            this.createThrowableObjects();
-            this.chickenHitByBottle();
+            if (!gameIsPaused) {
+                this.checkCollisions();
+                this.createThrowableObjects();
+                this.chickenHitByBottle();
+            }
         }, 100);
     }
 
@@ -44,7 +46,7 @@ class World {
      * Furthermore according to character direction throw bottle in the right direction
      */
     createThrowableObjects() {
-        if (this.keyboard.D && this.bottleCounter.counter > 0 && !this.isThrowing) {
+        if (this.keyboard.D && this.bottleCounter.counter > 0 && !this.isThrowing && !gameIsPaused) {
             this.isThrowing = true;
 
             setTimeout(() => {

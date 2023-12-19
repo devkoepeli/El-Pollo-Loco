@@ -11,7 +11,9 @@ class Cloud extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            if (!gameIsPaused) {
+                this.moveLeft();
+            }
         }, 1000 / 120);
     }
 }

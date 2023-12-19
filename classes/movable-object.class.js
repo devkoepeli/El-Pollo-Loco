@@ -10,7 +10,7 @@ class MovableObject extends DrawableObject{
 
     applyGravitation() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
+            if (!gameIsPaused && this.isAboveGround() || !gameIsPaused && this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }

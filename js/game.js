@@ -12,6 +12,7 @@ let sounds = {
     bottle_breaking: new Audio('./audio/breaking-glas.mp3'),
     bottle_collecting: new Audio('./audio/grab-bottle.mp3')
 }
+let gameIsPaused = false;
 
 
 document.addEventListener('keydown', keyDown);
@@ -82,6 +83,7 @@ function startGame() {
 
 
 function initGame() {
+    gameIsPaused = false;
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     sounds.gameMusic.volume = 0.3;
@@ -120,7 +122,7 @@ function changeIcon(icon) {
     if (icon === 'pause' && pauseIcon) {
         pauseIcon.src = './img/11_icons/play.svg';
         pauseIcon.id = 'play-icon';
-    } else if (icon === 'pause' && playIcon) {
+    } else if (icon === 'play' && playIcon) {
         playIcon.src = './img/11_icons/pause.svg';
         playIcon.id = 'pause-icon';
     } else if (icon === 'mute' && muteIcon) {
@@ -150,13 +152,24 @@ function handleMusic(action) {
 
 
 function toggleFullscreen() {
-    let canvas = document.getElementById('canvas');
+    let gameContainer = document.getElementById('game-container');
   
     if (!document.fullscreenElement) {
-      canvas.requestFullscreen().catch(err => {
+        gameContainer.requestFullscreen().catch(err => {
         alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
       });
     } else {
       document.exitFullscreen();
     }
-  }
+}
+
+
+function togglePause() {
+    if (document.getElementById('pause-icon')) {
+        gameIsPaused = true;
+        changeIcon('pause');
+    } else {
+        gameIsPaused = false;
+        changeIcon('play');
+    }
+}
