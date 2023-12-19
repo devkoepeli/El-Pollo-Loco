@@ -61,7 +61,7 @@ function keyUp(e) {
 
 function startGame() {
     const startScreen = document.getElementById('start-screen');
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('canvas-container');
 
     startScreen.classList.add('d-none');
     canvas.classList.remove('d-none');
@@ -93,5 +93,27 @@ function closePopUp(section) {
         document.getElementById('control-overview').remove();
     } else if (section === 'introduction') {
         document.getElementById('introduction').remove();
+    }
+}
+
+
+function changeIcon(icon) {
+    const pauseIcon = document.getElementById('pause-icon');
+    const playIcon = document.getElementById('play-icon');
+    const muteIcon = document.getElementById('mute-icon');
+    const unmuteIcon = document.getElementById('unmute-icon');
+
+    if (icon === 'pause' && pauseIcon) {
+        pauseIcon.src = './img/11_icons/play.svg';
+        pauseIcon.id = 'play-icon';
+    } else if (icon === 'pause' && playIcon) {
+        playIcon.src = './img/11_icons/pause.svg';
+        playIcon.id = 'pause-icon';
+    } else if (icon === 'mute' && muteIcon) {
+        muteIcon.src = './img/11_icons/unmute.svg';
+        muteIcon.id = 'unmute-icon';
+    } else if (icon === 'mute' && unmuteIcon) {
+        unmuteIcon.src = './img/11_icons/mute.svg';
+        unmuteIcon.id = 'mute-icon';
     }
 }

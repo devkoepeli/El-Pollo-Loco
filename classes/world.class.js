@@ -15,7 +15,7 @@ class World {
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
-        this.ctx.font = "bold 40px serif";
+        this.ctx.font = "bold 40px Zabars, serif";
         this.ctx.fillStyle = '#fff';
         this.canvas = canvas;
         this.keyboard = keyboard;
