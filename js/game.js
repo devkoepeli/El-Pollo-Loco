@@ -1,6 +1,17 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let sounds = {
+    gameMusic: new Audio('./audio/theme-sound.mp3'),
+    character_walking: new Audio('./audio/running.mp3'),
+    character_jumping: new Audio('./audio/jumping.mp3'),
+    character_hurt: new Audio('./audio/hurt.mp3'),
+    character_dying: new Audio('./audio/dying.mp3'),
+    coin_collecting: new Audio('./audio/coin.mp3'),
+    bottle_throwing: new Audio('./audio/throw.mp3'),
+    bottle_breaking: new Audio('./audio/breaking-glas.mp3'),
+    bottle_collecting: new Audio('./audio/grab-bottle.mp3')
+}
 
 
 document.addEventListener('keydown', keyDown);
@@ -73,6 +84,9 @@ function startGame() {
 function initGame() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    sounds.gameMusic.volume = 0.3;
+    sounds.gameMusic.loop = true;
+    sounds.gameMusic.play();
 }
 
 
@@ -112,8 +126,24 @@ function changeIcon(icon) {
     } else if (icon === 'mute' && muteIcon) {
         muteIcon.src = './img/11_icons/unmute.svg';
         muteIcon.id = 'unmute-icon';
+        handleMusic('play');
     } else if (icon === 'mute' && unmuteIcon) {
         unmuteIcon.src = './img/11_icons/mute.svg';
         unmuteIcon.id = 'mute-icon';
+        handleMusic('pause');
+    }
+}
+
+
+function handleMusic(action) {
+    if (action === 'play') {
+        for (let audio in sounds) {
+            sounds[audio].muted = false;
+        }
+        sounds.gameMusic.play();
+    } else if (action === 'pause') {
+        for (let audio in sounds) {
+            sounds[audio].muted = true;
+        }
     }
 }

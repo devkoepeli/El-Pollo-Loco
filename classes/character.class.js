@@ -51,10 +51,6 @@ class Character extends MovableObject {
         bottom: 10,
         left: 20
     };
-    sound_walking = new Audio('./audio/running.mp3');
-    sound_jumping = new Audio('./audio/jumping.mp3');
-    sound_hurt = new Audio('./audio/hurt.mp3');
-    sound_dying = new Audio('./audio/dying.mp3');
     intervals = [];
 
     constructor() {
@@ -82,17 +78,17 @@ class Character extends MovableObject {
 
     moveInterval() {
         let movingInterval = setInterval(() => {
-            this.sound_walking.pause();
+            sounds.character_walking.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.sound_walking.play();
+                sounds.character_walking.play();
             }
 
             if (this.world.keyboard.LEFT && this.x > -600) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.sound_walking.play();
+                sounds.character_walking.play();
             }
 
             // console.log('speedY', this.speedY);
@@ -100,7 +96,7 @@ class Character extends MovableObject {
             // y-coordinate gets subtracted by 5 then gravitation force has an effect
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
-                this.sound_jumping.play();
+                sounds.character_jumping.play();
             }
 
             this.world.camera_x = -this.x + 100;
@@ -112,11 +108,11 @@ class Character extends MovableObject {
         let animationInterval = setInterval(() => { 
             if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-                this.sound_hurt.play();
+                sounds.character_hurt.play();
             } else if (this.isDead()) {
                 this.playAnimationOnce(this.IMAGES_DEAD);
-                this.sound_dying.play();
-                this.sound_walking.pause();
+                sounds.character_dying.play();
+                sounds.character_walking.pause();
                 this.stopCharacter();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);

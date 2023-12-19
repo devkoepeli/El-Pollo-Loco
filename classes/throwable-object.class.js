@@ -19,8 +19,6 @@ class ThrowableObject extends MovableObject {
         './img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         './img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
-    sound_throwing = new Audio('./audio/throw.mp3');
-    sound_breaking = new Audio('./audio/breaking-glas.mp3');
     otherDirection;
 
     constructor(characterX, characterY, isOtherDirection) {
@@ -44,13 +42,13 @@ class ThrowableObject extends MovableObject {
         
         if (!this.otherDirection) {
             setInterval(() => {
-                // limit the throw animation to x < 2000
+                // limit the throw animation to x < 3000
                 if (this.x < 3000) {
                     this.x += this.speedX;
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
-            this.sound_throwing.play();
+            sounds.bottle_throwing.play();
         } else {
             this.x -= 80;
             setInterval(() => {
@@ -59,7 +57,7 @@ class ThrowableObject extends MovableObject {
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
-            this.sound_throwing.play();
+            sounds.bottle_throwing.play();
         }
         
     }

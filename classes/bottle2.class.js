@@ -5,7 +5,6 @@ class Bottle2 extends DrawableObject {
         bottom: 5,
         left: 10
     };
-    sound = new Audio('./audio/grab-bottle.mp3');
 
     constructor() {
         super().loadImage('./img/6_salsa_bottle/2_salsa_bottle_on_ground.png');
@@ -17,6 +16,6 @@ class Bottle2 extends DrawableObject {
     }
 
     playSound() {
-        this.sound.play();
+        sounds.bottle_collecting.play();
     }
 }
