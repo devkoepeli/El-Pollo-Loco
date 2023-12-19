@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" value="notranslate">
+    <link rel="icon" type="image/png" href="img/favicon-epl.png">
     <link rel="stylesheet" href="style.css">
     <title>EL POLLO LOCO</title>
     <script src="classes/drawable-object.class.js"></script>
@@ -54,7 +55,7 @@
             <div id="canvas-container" class="canvas-container d-none">
                 <canvas class="canvas" id="canvas" width="720" height="480"></canvas>
                 <div id="icons" class="icons">
-                    <div class="icon-container">
+                    <div onclick="showPopup('control')" class="icon-container">
                         <img id="control-icon" class="icon" src="./img/11_icons/control.svg" alt="Control Icon">
                     </div>
                     <div class="icons-center">
@@ -68,7 +69,7 @@
                             <img id="unmute-icon" class="icon" src="./img/11_icons/unmute.svg" alt="Mute Icon">
                         </div>
                     </div>
-                    <div class="icon-container">
+                    <div onclick="toggleFullscreen()" class="icon-container">
                         <img id="fullscreen-icon" class="icon" src="./img/11_icons/fullscreen.svg" alt="Fullscreen Icon">
                     </div>
                 </div>

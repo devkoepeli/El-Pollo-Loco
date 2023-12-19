@@ -94,7 +94,7 @@ function showPopup(section) {
     const controlDiv = document.getElementById('control-container');
     const introductionDiv = document.getElementById('introduction-container');
 
-    if (section === 'control') {
+    if (section === 'control' && !document.getElementById('control-overview')) {
         controlDiv.innerHTML += controlOverviewHTML();
     } else if (section === 'introduction') {
         introductionDiv.innerHTML += introductionHTML();
@@ -147,3 +147,16 @@ function handleMusic(action) {
         }
     }
 }
+
+
+function toggleFullscreen() {
+    let canvas = document.getElementById('canvas');
+  
+    if (!document.fullscreenElement) {
+      canvas.requestFullscreen().catch(err => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
