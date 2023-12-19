@@ -16,6 +16,7 @@ class Bottle2 extends DrawableObject {
     }
 
     playSound() {
+        sounds.bottle_collecting.currentTime = 0;
         sounds.bottle_collecting.play();
     }
 }

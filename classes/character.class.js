@@ -78,7 +78,6 @@ class Character extends MovableObject {
 
     moveInterval() {
         let movingInterval = setInterval(() => {
-            sounds.character_walking.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
@@ -89,6 +88,10 @@ class Character extends MovableObject {
                 this.moveLeft();
                 this.otherDirection = true;
                 sounds.character_walking.play();
+            }
+
+            if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                sounds.character_walking.pause();
             }
 
             // console.log('speedY', this.speedY);
@@ -111,8 +114,8 @@ class Character extends MovableObject {
                 sounds.character_hurt.play();
             } else if (this.isDead()) {
                 this.playAnimationOnce(this.IMAGES_DEAD);
-                sounds.character_dying.play();
                 sounds.character_walking.pause();
+                sounds.character_dying.play();
                 this.stopCharacter();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);

@@ -21,6 +21,7 @@ class Coin extends DrawableObject {
 
     playSound() {
         sounds.coin_collecting.volume = 0.3;
+        sounds.coin_collecting.currentTime = 0;
         sounds.coin_collecting.play();
     }
 }

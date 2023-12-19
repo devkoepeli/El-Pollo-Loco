@@ -48,7 +48,7 @@ class ThrowableObject extends MovableObject {
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
-            sounds.bottle_throwing.play();
+            this.playSound();
         } else {
             this.x -= 80;
             setInterval(() => {
@@ -57,8 +57,13 @@ class ThrowableObject extends MovableObject {
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
-            sounds.bottle_throwing.play();
+            this.playSound();
         }
-        
+    }
+
+    playSound() {
+        sounds.bottle_throwing.volume = 0.8;
+        sounds.bottle_throwing.currentTime = 0;
+        sounds.bottle_throwing.play();
     }
 }
