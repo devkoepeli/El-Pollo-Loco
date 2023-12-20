@@ -22,13 +22,13 @@ class Chicken extends MovableObject {
 
     animate() {
         let walkingAnimation = setInterval(() => {
-            if (!gameIsPaused) {
+            if (!gameIsPaused && gameHasStarted) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 130);
 
         let moveLeftAnimation = setInterval(() => {
-            if (!gameIsPaused) {
+            if (!gameIsPaused && gameHasStarted) {
                 this.moveLeft();
             }
         }, 1000 / 120);

@@ -13,10 +13,12 @@ let sounds = {
     bottle_collecting: new Audio('./audio/grab-bottle.mp3')
 }
 let gameIsPaused = false;
+let gameHasStarted = false;
 
 
 document.addEventListener('keydown', keyDown);
-document.addEventListener('keyup', keyUp)
+document.addEventListener('keyup', keyUp);
+document.addEventListener('DOMContentLoaded', initLevel);
 
 
 /**
@@ -82,7 +84,16 @@ function startGame() {
 }
 
 
+function restartGame() {
+    gameHasStarted = false;
+    stopGame();
+    initLevel();
+    initGame();
+}
+
+
 function initGame() {
+    gameHasStarted = true;
     gameIsPaused = false;
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -171,5 +182,16 @@ function togglePause() {
     } else {
         gameIsPaused = false;
         changeIcon('play');
+    }
+}
+
+
+/**
+ * clear all intervals - intervals return a unique id with which one can access the specific interval
+ * e.g. animationInterval has the ID 10
+ */
+function stopGame() {
+    for (let i = 0; i < 1000; i++) {
+        window.clearInterval(i);
     }
 }

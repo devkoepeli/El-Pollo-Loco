@@ -95,20 +95,10 @@ class MovableObject extends DrawableObject{
                 resolve();
             }, 150));
         }
-        this.stopGame();
+        stopGame();
     }
 
     jump() {
         this.speedY = 10;
-    }
-
-    /**
-     * clear all intervals - intervals return a unique id with which one can access the specific interval
-     * e.g. animationInterval has the ID 10
-     */
-     stopGame() {
-        for (let i = 0; i < 1000; i++) {
-            window.clearInterval(i);
-        }
     }
 }

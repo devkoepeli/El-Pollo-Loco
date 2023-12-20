@@ -118,7 +118,7 @@ body {
 
 .canvas {
     display: block;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5);
     box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.2);
     border-radius: 16px;
 }
