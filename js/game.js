@@ -3,17 +3,18 @@ let world;
 let keyboard = new Keyboard();
 let sounds = {
     gameMusic: new Audio('./audio/theme-sound.mp3'),
-    victory: new Audio('audio/victory.mp3'),
-    defeat: new Audio('audio/defeat.mp3'),
+    victory: new Audio('./audio/victory.mp3'),
+    defeat: new Audio('./audio/defeat.mp3'),
     character_walking: new Audio('./audio/running.mp3'),
     character_jumping: new Audio('./audio/jumping.mp3'),
     character_hurt: new Audio('./audio/hurt.mp3'),
     character_dying: new Audio('./audio/dying.mp3'),
+    character_bounce: new Audio('./audio/boing.mp3'),
     coin_collecting: new Audio('./audio/coin.mp3'),
     bottle_throwing: new Audio('./audio/throw.mp3'),
     bottle_breaking: new Audio('./audio/breaking-glas.mp3'),
     bottle_collecting: new Audio('./audio/grab-bottle.mp3')
-}
+};
 let gameIsPaused = false;
 let gameHasStarted = false;
 

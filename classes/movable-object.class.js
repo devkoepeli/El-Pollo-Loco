@@ -102,4 +102,15 @@ class MovableObject extends DrawableObject{
     jump() {
         this.speedY = 10;
     }
+
+    bounceBack() {
+        this.speedY = 8;
+        this.playBounceAudio();
+    }
+
+    playBounceAudio() {
+        sounds.character_bounce.currentTime = 0;
+        sounds.character_bounce.volume = 0.2;
+        sounds.character_bounce.play();
+    }
 }

@@ -94,6 +94,7 @@ class World {
     isCollidingFromTop(enemy) {
         if (enemy instanceof Chicken) {
             enemy.killChicken();
+            this.character.bounceBack();
         } 
     }
 
