@@ -3,6 +3,8 @@ let world;
 let keyboard = new Keyboard();
 let sounds = {
     gameMusic: new Audio('./audio/theme-sound.mp3'),
+    victory: new Audio('audio/victory.mp3'),
+    defeat: new Audio('audio/defeat.mp3'),
     character_walking: new Audio('./audio/running.mp3'),
     character_jumping: new Audio('./audio/jumping.mp3'),
     character_hurt: new Audio('./audio/hurt.mp3'),
@@ -84,7 +86,12 @@ function startGame() {
 }
 
 
-function restartGame() {
+function restartGame(result) {
+    if (result) {
+        document.getElementById('end-screen').classList.add('d-none');
+        document.getElementById(`${result}`).remove();
+    }
+    checkPauseIcon();
     gameHasStarted = false;
     stopGame();
     initLevel();
@@ -148,12 +155,21 @@ function changeIcon(icon) {
 }
 
 
+function checkPauseIcon() {
+    const playIcon = document.getElementById('play-icon');
+
+    if (playIcon) {
+        playIcon.src = './img/11_icons/pause.svg';
+        playIcon.id = 'pause-icon';
+    }
+}
+
+
 function handleMusic(action) {
     if (action === 'play') {
         for (let audio in sounds) {
             sounds[audio].muted = false;
         }
-        sounds.gameMusic.play();
     } else if (action === 'pause') {
         for (let audio in sounds) {
             sounds[audio].muted = true;
@@ -174,7 +190,9 @@ function toggleFullscreen() {
     }
 }
 
-
+/**
+ * pause the game onclick through setting variable to true to stop all ongoing object intervals from executing
+ */
 function togglePause() {
     if (document.getElementById('pause-icon')) {
         gameIsPaused = true;
@@ -193,5 +211,29 @@ function togglePause() {
 function stopGame() {
     for (let i = 0; i < 1000; i++) {
         window.clearInterval(i);
+    }
+}
+
+async function gameOver(result) {
+    const endScreen = document.getElementById('end-screen');
+    const resultContainer = document.getElementById(`${result}`);
+    endScreen.classList.remove('d-none');
+
+    if (!resultContainer) {
+        const htmlContent = result === 'victory' ? victoryHTML() : defeatHTML();
+        endScreen.innerHTML += htmlContent;
+
+        new Promise(resolve => setTimeout(() => {
+            document.getElementById(`${result}-img`).classList.add('op-1');
+            resolve();
+        }, 200));
+        new Promise(resolve => setTimeout(() => {
+            document.getElementById(`${result}-img`).classList.remove('op-1');
+            resolve();
+        }, 3000));
+        new Promise(resolve => setTimeout(() => {
+            document.getElementById(`${result}-btn`).classList.add('op-1');
+            resolve();
+        }, 3000));
     }
 }

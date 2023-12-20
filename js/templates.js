@@ -51,3 +51,27 @@ function introductionHTML() {
         </div>
     `;
 }
+
+
+function victoryHTML() {
+    return /*html*/`
+        <div id="victory" class="victory">
+            <img id="victory-img" class="victory-img" src="./img/9_intro_outro_screens/game_over/game over.png" alt="Game Over">
+            <div id="victory-btn" class="victory-button-container">
+                <button onclick="restartGame('victory')" class="main-button">Play Again</button>
+            </div>
+        </div>
+    `;
+}
+
+
+function defeatHTML() {
+    return /*html*/`
+        <div id="defeat" class="defeat">
+            <img id="defeat-img" class="defeat-img" src="img/9_intro_outro_screens/game_over/oh no you lost!.png" alt="You Lost">
+            <div id="defeat-btn" class="defeat-button-container">
+                <button onclick="restartGame('defeat')" class="main-button">Try Again</button>
+            </div>
+        </div>
+    `;
+}

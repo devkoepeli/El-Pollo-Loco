@@ -43,7 +43,7 @@ class ThrowableObject extends MovableObject {
         if (!this.otherDirection) {
             setInterval(() => {
                 // limit the throw animation to x < 3000
-                if (this.x < 3000) {
+                if (this.x < 3000 && !gameIsPaused) {
                     this.x += this.speedX;
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
@@ -52,7 +52,7 @@ class ThrowableObject extends MovableObject {
         } else {
             this.x -= 80;
             setInterval(() => {
-                if (this.x > -2000) {
+                if (this.x > -2000 && !gameIsPaused) {
                     this.x -= this.speedX;
                     this.playAnimation(this.IMAGES_ROTATION);
                 }

@@ -96,6 +96,7 @@ class MovableObject extends DrawableObject{
             }, 150));
         }
         stopGame();
+        gameOver('defeat');
     }
 
     jump() {

@@ -117,8 +117,7 @@ class Character extends MovableObject {
                     sounds.character_hurt.play();
                 } else if (this.isDead()) {
                     this.playAnimationOnce(this.IMAGES_DEAD);
-                    sounds.character_walking.pause();
-                    sounds.character_dying.play();
+                    this.playAudioDeath();
                     this.stopCharacter();
                 } else if (this.isAboveGround()) {
                     this.playAnimation(this.IMAGES_JUMPING);
@@ -139,5 +138,12 @@ class Character extends MovableObject {
         for (const interval of this.intervals) {
             clearInterval(interval);
         }
+    }
+
+    playAudioDeath() {
+        sounds.character_walking.pause();
+        sounds.character_dying.play();
+        sounds.defeat.volume = 0.5;
+        sounds.defeat.play();
     }
 }

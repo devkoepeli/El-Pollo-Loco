@@ -67,7 +67,7 @@ body {
     position: absolute;
     left: 3rem;
     right: 3rem;
-    top: 1.5rem;
+    top: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,13 +78,13 @@ body {
     justify-content: center;
 }
 
-.start-button {
+.main-button {
     text-align: center;
     font-family: inherit;
     color: white;
     letter-spacing: 4px;
     text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.35);
     -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.4);
     font-size: 2rem;
     padding: 1rem 1.2rem;
@@ -95,11 +95,11 @@ body {
     transition: all .1s ease-in-out;
 }
 
-.start-button:hover {
+.main-button:hover {
     transform: scale(1.05);
 }
 
-.start-button:active {
+.main-button:active {
     transform: scale(1);
 }
 
@@ -280,6 +280,55 @@ body {
     gap: 1rem;
 }
 
+.end-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 720 / 480;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.victory,
+.defeat {
+    width: 100%;
+    height: 100%;
+}
+
+.victory-img,
+.defeat-img {
+    display: block;
+    /* max-width: 720px; */ /* fullscreen*/
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 720 / 480;
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+}
+
+.victory-button-container,
+.defeat-button-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+}
+
+.op-1 {
+    opacity: 1;
+}
+
 @media only screen and (max-width: 720px) {
     .content {
         justify-content: center;
@@ -296,6 +345,10 @@ body {
     .canvas {
         width: 100%;
     }
+
+    .end-screen {
+        width: 100%;
+    }
 }
 
 @media only screen and (max-height: 480px) {
@@ -308,6 +361,15 @@ body {
     }
 
     .start-screen-img {
+        height: 100vh;
+    }
+
+    .end-screen {
+        height: 100vh;
+    }
+
+    .defeat-img,
+    .victory-img {
         height: 100vh;
     }
 }
