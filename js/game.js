@@ -22,6 +22,7 @@ let gameHasStarted = false;
 
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
+document.addEventListener('DOMContentLoaded', initLevel);
 
 
 /**
@@ -105,7 +106,6 @@ function initGame() {
     gameHasStarted = true;
     gameIsPaused = false;
     canvas = document.getElementById('canvas');
-    initLevel();
     world = new World(canvas, keyboard);
     sounds.gameMusic.volume = 0.3;
     sounds.gameMusic.loop = true;

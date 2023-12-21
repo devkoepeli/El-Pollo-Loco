@@ -54,6 +54,6 @@ class DrawableObject {
     }
 
     checkObject() {
-        return this instanceof Character || this instanceof Endboss || this instanceof Chicken || this instanceof Coin || this instanceof Bottle1 || this instanceof Bottle2 || this instanceof ThrowableObject;
+        return this instanceof Character || this instanceof Endboss || this instanceof Chicken || this instanceof Coin || this instanceof Bottle1 || this instanceof Bottle2 || this instanceof ThrowableObject || this instanceof SmallChicken;
     }
 }

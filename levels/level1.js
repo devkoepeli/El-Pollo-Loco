@@ -39,10 +39,13 @@ function initLevel() {
         ],
         [
             new Chicken(380),
+            new SmallChicken(500),
             new Chicken(630),
-            new Chicken(850),
+            new SmallChicken(700),
+            new Chicken(950),
             new Chicken(1140),
             new Chicken(1300),
+            new SmallChicken(1450),
             new Chicken(1800)
         ],
         new Endboss(),
