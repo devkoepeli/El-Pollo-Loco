@@ -22,7 +22,6 @@ let gameHasStarted = false;
 
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
-document.addEventListener('DOMContentLoaded', initLevel);
 
 
 /**
@@ -96,7 +95,7 @@ function restartGame(result) {
     checkPauseIcon();
     gameHasStarted = false;
     stopGame();
-    initLevel();
+    pauseAllAudio();
     initGame();
 }
 
@@ -176,6 +175,13 @@ function handleMusic(action) {
         for (let audio in sounds) {
             sounds[audio].muted = true;
         }
+    }
+}
+
+
+function pauseAllAudio() {
+    for (let audio in sounds) {
+        sounds[audio].pause();
     }
 }
 

@@ -81,6 +81,10 @@ class MovableObject extends DrawableObject{
         this.x -= this.angrySpeedX;
     }
 
+    moveRightAngry() {
+        this.x += this.angrySpeedX
+    }
+
     /**
      * changes the images with remainder/modulo operator for animation effect
      * @param {array} images - array with path of images

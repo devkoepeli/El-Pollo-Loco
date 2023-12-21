@@ -78,7 +78,6 @@ class Endboss extends MovableObject {
                 if (this.energy == 80) {
                     this.firstAttack = true;
                     this.playAnimation(this.IMAGES_ALERT);
-                    this.playAudioAngryChicken();
                 }
                 if (this.energy <= 60) {
                     this.firstAttack = false;
@@ -95,19 +94,32 @@ class Endboss extends MovableObject {
             }
         }, 100)
 
-        let moveLeftAnimation = setInterval(() => {
+        let walkingDirection = setInterval(() => {
             if (!gameIsPaused && gameHasStarted && !this.firstAttack) {
-                if (this.energy == 100) {
+                if (this.energy == 100 && this.x > world.character.x + world.character.offset.left) {
+                    this.otherDirection = false;
                     this.moveLeft();
-                } else if (this.energy < 100) {
+                }
+                if (this.energy < 100 && this.x > world.character.x + world.character.offset.left) {
+                    this.otherDirection = false;
                     this.moveLeftAngry();
+                    this.playAudioAngryChicken();
+                }
+                if (this.energy == 100 && this.x + this.width < world.character.x + world.character.width - world.character.offset.left) {
+                    this.otherDirection = true;
+                    this.moveRight();
+                }
+                if (this.energy < 100 && this.x + this.width < world.character.x + world.character.width - world.character.offset.left) {
+                    this.otherDirection = true;
+                    this.moveRightAngry();
+                    this.playAudioAngryChicken();
                 }
             }
         }, 1000 / 120);
 
         this.intervalIDs.push(interval100);
         this.intervalIDs.push(walkingAnimation);
-        this.intervalIDs.push(moveLeftAnimation);
+        this.intervalIDs.push(walkingDirection);
     }
 
     hitEndboss() {
