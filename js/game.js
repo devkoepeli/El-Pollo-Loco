@@ -83,6 +83,7 @@ function startGame() {
     startScreen.classList.add('d-none');
     canvas.classList.remove('d-none');
 
+    initLevel();
     initGame();
 }
 
@@ -96,6 +97,7 @@ function restartGame(result) {
     gameHasStarted = false;
     stopGame();
     pauseAllAudio();
+    initLevel();
     initGame();
 }
 
