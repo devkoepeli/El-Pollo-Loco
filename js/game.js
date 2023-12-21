@@ -83,7 +83,6 @@ function startGame() {
     startScreen.classList.add('d-none');
     canvas.classList.remove('d-none');
 
-    initLevel();
     initGame();
 }
 
@@ -106,6 +105,7 @@ function initGame() {
     gameHasStarted = true;
     gameIsPaused = false;
     canvas = document.getElementById('canvas');
+    initLevel();
     world = new World(canvas, keyboard);
     sounds.gameMusic.volume = 0.3;
     sounds.gameMusic.loop = true;

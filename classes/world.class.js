@@ -91,7 +91,7 @@ class World {
                     this.character.hit();
                     this.healthStatusbar.setPercentage(this.character.energy);
                 }
-            } else if (this.character.isAboveGround && this.character.speedY <= 0 && this.character.isColliding(enemy) && enemy.energy) {
+            } else if (this.character.isAboveGround && this.character.speedY <= 2 && this.character.isColliding(enemy) && enemy.energy) {
                 this.isCollidingFromTop(enemy);
             } else if (!enemy.energy) {
                 this.removeChicken(enemy);
