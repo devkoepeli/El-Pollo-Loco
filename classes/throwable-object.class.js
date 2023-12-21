@@ -35,6 +35,9 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /**
+     * throwing animation for the created bottle with direction comparison
+     */
     throw() {
         this.applyGravitation()
         this.speedY = 9;
@@ -42,7 +45,6 @@ class ThrowableObject extends MovableObject {
         
         if (!this.otherDirection) {
             let throwToRight = setInterval(() => {
-                // limit the throw animation to x < 3000
                 if (this.x < 3000 && !gameIsPaused) {
                     this.x += this.speedX;
                     this.playAnimation(this.IMAGES_ROTATION);
@@ -50,7 +52,6 @@ class ThrowableObject extends MovableObject {
             }, 1000 / 60);
             this.playThrowingSound();
             this.intervalIDs.push(throwToRight);
-
         } else {
             this.x -= 80;
             let throwToLeft = setInterval(() => {
@@ -64,18 +65,27 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * set audio properties and play the audio
+     */
     playThrowingSound() {
         sounds.bottle_throwing.volume = 0.7;
         sounds.bottle_throwing.currentTime = 0;
         sounds.bottle_throwing.play();
     }
 
+    /**
+     * set audio properties and play the audio
+     */
     playBreakingSound() {
         sounds.bottle_breaking.currentTime = 0;
         sounds.bottle_breaking.volume = 0.8;
         sounds.bottle_breaking.play();
     }
 
+    /**
+     * splash audio and animation with the splash images of the bottle
+     */
     letBottleSplash() {
         this.clearThrowingIntervals();
         this.energy = 0;
@@ -89,12 +99,18 @@ class ThrowableObject extends MovableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * set property to true in order to remove the bottle after 500ms
+     */
     makeBottleSplicable() {
         setTimeout(() => {
            this.isSplicable = true;
         }, 500);
     }
 
+    /**
+     * clear the two intervals in the throw method
+     */
     clearThrowingIntervals() {
         for (const interval of this.intervalIDs) {
             clearInterval(interval);
