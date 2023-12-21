@@ -105,6 +105,7 @@ class MovableObject extends DrawableObject{
                 resolve();
             }, 150));
         }
+        pauseAllAudio();
         stopGame();
         gameOver(result);
     }

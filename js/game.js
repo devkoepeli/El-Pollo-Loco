@@ -183,7 +183,9 @@ function handleMusic(action) {
 
 function pauseAllAudio() {
     for (let audio in sounds) {
-        sounds[audio].pause();
+        if (audio != 'gameMusic' && audio != 'victory' && audio != 'defeat') {
+            sounds[audio].pause();
+        }
     }
 }
 
