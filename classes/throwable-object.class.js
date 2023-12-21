@@ -40,8 +40,8 @@ class ThrowableObject extends MovableObject {
      */
     throw() {
         this.applyGravitation()
-        this.speedY = 9;
-        this.speedX = 10;
+        this.speedY = 10;
+        this.speedX = 8;
         
         if (!this.otherDirection) {
             let throwToRight = setInterval(() => {
@@ -91,6 +91,7 @@ class ThrowableObject extends MovableObject {
         this.energy = 0;
         this.playBreakingSound();
         this.makeBottleSplicable();
+        this.speedY = 0;
 
         setInterval(() => {
             if (!gameIsPaused) {
