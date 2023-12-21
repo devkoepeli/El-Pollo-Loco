@@ -41,7 +41,7 @@ class ThrowableObject extends MovableObject {
         this.speedX = 10;
         
         if (!this.otherDirection) {
-            setInterval(() => {
+            let throwToRight = setInterval(() => {
                 // limit the throw animation to x < 3000
                 if (this.x < 3000 && !gameIsPaused) {
                     this.x += this.speedX;
@@ -49,15 +49,18 @@ class ThrowableObject extends MovableObject {
                 }
             }, 1000 / 60);
             this.playThrowingSound();
+            this.intervalIDs.push(throwToRight);
+
         } else {
             this.x -= 80;
-            setInterval(() => {
+            let throwToLeft = setInterval(() => {
                 if (this.x > -2000 && !gameIsPaused) {
                     this.x -= this.speedX;
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
             this.playThrowingSound();
+            this.intervalIDs.push(throwToLeft);
         }
     }
 
@@ -71,5 +74,30 @@ class ThrowableObject extends MovableObject {
         sounds.bottle_breaking.currentTime = 0;
         sounds.bottle_breaking.volume = 0.8;
         sounds.bottle_breaking.play();
+    }
+
+    letBottleSplash() {
+        this.clearThrowingIntervals();
+        this.energy = 0;
+        this.playBreakingSound();
+        this.makeBottleSplicable();
+
+        setInterval(() => {
+            if (!gameIsPaused) {
+                this.playAnimation(this.IMAGES_SPLASH);
+            }
+        }, 1000 / 60);
+    }
+
+    makeBottleSplicable() {
+        setTimeout(() => {
+           this.isSplicable = true;
+        }, 500);
+    }
+
+    clearThrowingIntervals() {
+        for (const interval of this.intervalIDs) {
+            clearInterval(interval);
+        }
     }
 }

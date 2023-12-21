@@ -120,8 +120,10 @@ class World {
     }
 
     removeBottle(bottle) {
-        let iOfBottle = this.throwableObjects.indexOf(bottle);
-        this.throwableObjects.splice(iOfBottle, 1);
+        if (bottle.isSplicable) {
+            let iOfBottle = this.throwableObjects.indexOf(bottle);
+            this.throwableObjects.splice(iOfBottle, 1);
+        }
     }
 
 
@@ -136,11 +138,12 @@ class World {
 
     endbossHitByBottle() {
         this.throwableObjects.forEach((bottle) => {
-            if (this.level.endboss.isColliding(bottle) && this.level.endboss.isAlive()) {
+            if (this.level.endboss.isColliding(bottle) && this.level.endboss.isAlive() && bottle.energy) {
                 this.level.endboss.hitEndboss();
                 this.endbossHealthStatusbar.setPercentage(this.level.endboss.energy);
+                bottle.letBottleSplash();
+            } else if (!bottle.energy) {
                 this.removeBottle(bottle);
-                bottle.playBreakingSound();
             }
         })
     }
@@ -148,11 +151,12 @@ class World {
     chickenHitByBottle() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (enemy.isColliding(bottle)) {
-                    this.removeBottle(bottle);
-                    bottle.playBreakingSound();
+                if (enemy.isColliding(bottle) && bottle.energy) {
+                    bottle.letBottleSplash();
                     let iOfEnemy = this.level.enemies.indexOf(enemy);
                     this.level.enemies.splice(iOfEnemy, 1);
+                } else if (!bottle.energy) {
+                    this.removeBottle(bottle);
                 }
             })
         })
