@@ -1,12 +1,14 @@
 class MovableObject extends DrawableObject{
     currentImage = 0;
     speedX = 0.1;
+    angrySpeedX = 1;
     otherDirection = false;
     speedY = 0;
     acceleration = 0.25;
     energy = 100;
     lastHit = 0;
     isSplicable = false;
+    intervalIDs = [];
 
     applyGravitation() {
         setInterval(() => {
@@ -64,7 +66,7 @@ class MovableObject extends DrawableObject{
      */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
-        return timePassed < 300;
+        return timePassed < 400;
     }
 
     moveRight() {
@@ -73,6 +75,10 @@ class MovableObject extends DrawableObject{
 
     moveLeft() {
         this.x -= this.speedX;
+    }
+
+    moveLeftAngry() {
+        this.x -= this.angrySpeedX;
     }
 
     /**
@@ -87,7 +93,7 @@ class MovableObject extends DrawableObject{
         this.currentImage++;
     }
 
-    async playAnimationOnce(images) {
+    async playAnimationOnce(images, result) {
         for (const image of images) {
             await new Promise(resolve => setTimeout(() => {
                 let path = image;
@@ -96,7 +102,7 @@ class MovableObject extends DrawableObject{
             }, 150));
         }
         stopGame();
-        gameOver('defeat');
+        gameOver(result);
     }
 
     jump() {
@@ -104,13 +110,13 @@ class MovableObject extends DrawableObject{
     }
 
     bounceBack() {
-        this.speedY = 8;
+        this.speedY = 9;
         this.playBounceAudio();
     }
 
     playBounceAudio() {
         sounds.character_bounce.currentTime = 0;
-        sounds.character_bounce.volume = 0.2;
+        sounds.character_bounce.volume = 0.15;
         sounds.character_bounce.play();
     }
 }

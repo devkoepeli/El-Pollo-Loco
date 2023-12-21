@@ -13,7 +13,8 @@ let sounds = {
     coin_collecting: new Audio('./audio/coin.mp3'),
     bottle_throwing: new Audio('./audio/throw.mp3'),
     bottle_breaking: new Audio('./audio/breaking-glas.mp3'),
-    bottle_collecting: new Audio('./audio/grab-bottle.mp3')
+    bottle_collecting: new Audio('./audio/grab-bottle.mp3'),
+    chicken_angry: new Audio('./audio/chicken-angry.mp3')
 };
 let gameIsPaused = false;
 let gameHasStarted = false;

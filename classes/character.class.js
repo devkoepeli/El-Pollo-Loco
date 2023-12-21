@@ -51,7 +51,6 @@ class Character extends MovableObject {
         bottom: 10,
         left: 20
     };
-    intervals = [];
 
     constructor() {
         // first image needs to be loaded
@@ -106,7 +105,7 @@ class Character extends MovableObject {
                 this.world.camera_x = -this.x + 100;
             }
         }, 1000 / 120);
-        this.intervals.push(movingInterval);
+        this.intervalIDs.push(movingInterval);
     }
 
     animateInterval() {
@@ -116,7 +115,7 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_HURT);
                     sounds.character_hurt.play();
                 } else if (this.isDead()) {
-                    this.playAnimationOnce(this.IMAGES_DEAD);
+                    this.playAnimationOnce(this.IMAGES_DEAD, 'defeat');
                     this.playAudioDeath();
                     this.stopCharacter();
                 } else if (this.isAboveGround()) {
@@ -128,14 +127,14 @@ class Character extends MovableObject {
                 }
             }
         }, 85);
-        this.intervals.push(animationInterval);
+        this.intervalIDs.push(animationInterval);
     }
 
     /**
      * stop animation and movement of character before stopping completely the game
      */
     stopCharacter() {
-        for (const interval of this.intervals) {
+        for (const interval of this.intervalIDs) {
             clearInterval(interval);
         }
     }

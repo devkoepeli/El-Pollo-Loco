@@ -48,7 +48,7 @@ class ThrowableObject extends MovableObject {
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
-            this.playSound();
+            this.playThrowingSound();
         } else {
             this.x -= 80;
             setInterval(() => {
@@ -57,13 +57,19 @@ class ThrowableObject extends MovableObject {
                     this.playAnimation(this.IMAGES_ROTATION);
                 }
             }, 1000 / 60);
-            this.playSound();
+            this.playThrowingSound();
         }
     }
 
-    playSound() {
-        sounds.bottle_throwing.volume = 0.8;
+    playThrowingSound() {
+        sounds.bottle_throwing.volume = 0.7;
         sounds.bottle_throwing.currentTime = 0;
         sounds.bottle_throwing.play();
+    }
+
+    playBreakingSound() {
+        sounds.bottle_breaking.currentTime = 0;
+        sounds.bottle_breaking.volume = 0.8;
+        sounds.bottle_breaking.play();
     }
 }

@@ -6,6 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     healthStatusbar = new HealthStatusBar();
+    endbossHealthStatusbar = new EndbossHealthStatusbar();
     bottleCounterImg = new BottleCounterImage();
     coinCounterImg = new CoinCounterImage();
     coinCounter = new Counter(105, 110);
@@ -36,7 +37,6 @@ class World {
             if (!gameIsPaused) {
                 this.checkCollisions();
                 this.createThrowableObjects();
-                this.chickenHitByBottle();
             }
         }, 100);
     }
@@ -62,8 +62,11 @@ class World {
 
     checkCollisions() {
         this.checkCollisionEnemies();
+        this.checkCollisionEndboss();
         this.increaseCoinCounter();
         this.increaseBottleCounter();
+        this.chickenHitByBottle();
+        this.endbossHitByBottle();
     }
 
     /**
@@ -92,10 +95,8 @@ class World {
      * @param {object} enemy - stands for the object with which a collision took place
      */
     isCollidingFromTop(enemy) {
-        if (enemy instanceof Chicken) {
-            enemy.killChicken();
-            this.character.bounceBack();
-        } 
+        enemy.killChicken();
+        this.character.bounceBack();
     }
 
     /**
@@ -109,13 +110,40 @@ class World {
         }
     }
 
+    removeBottle(bottle) {
+        let iOfBottle = this.throwableObjects.indexOf(bottle);
+        this.throwableObjects.splice(iOfBottle, 1);
+    }
+
+
+    checkCollisionEndboss() {
+        if (this.character.isColliding(this.level.endboss) && this.level.endboss.isAlive()) {
+            if (this.character.isAlive()) {
+                this.character.hit();
+                this.healthStatusbar.setPercentage(this.character.energy);
+            }
+        }
+    }
+
+    endbossHitByBottle() {
+        this.throwableObjects.forEach((bottle) => {
+            if (this.level.endboss.isColliding(bottle) && this.level.endboss.isAlive()) {
+                this.level.endboss.hitEndboss();
+                this.endbossHealthStatusbar.setPercentage(this.level.endboss.energy);
+                this.removeBottle(bottle);
+                bottle.playBreakingSound();
+            }
+        })
+    }
+
     chickenHitByBottle() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
                 if (enemy.isColliding(bottle)) {
+                    this.removeBottle(bottle);
+                    bottle.playBreakingSound();
                     let iOfEnemy = this.level.enemies.indexOf(enemy);
                     this.level.enemies.splice(iOfEnemy, 1);
-                    console.log('chicken hit');
                 }
             })
         })
@@ -159,12 +187,14 @@ class World {
         this.addToMap(this.healthStatusbar);
         this.addToMap(this.bottleCounterImg);
         this.addToMap(this.coinCounterImg);
+        this.addToMap(this.endbossHealthStatusbar);
         this.ctx.fillText(this.coinCounter.counter, this.coinCounter.x, this.coinCounter.y);
         this.ctx.fillText(this.bottleCounter.counter, this.bottleCounter.x, this.coinCounter.y);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.level.endboss);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
