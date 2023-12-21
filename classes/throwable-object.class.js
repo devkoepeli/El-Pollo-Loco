@@ -40,7 +40,7 @@ class ThrowableObject extends MovableObject {
      */
     throw() {
         this.applyGravitation()
-        this.speedY = 10;
+        this.speedY = 9;
         this.speedX = 8;
         
         if (!this.otherDirection) {
@@ -90,23 +90,15 @@ class ThrowableObject extends MovableObject {
         this.clearThrowingIntervals();
         this.energy = 0;
         this.playBreakingSound();
-        this.makeBottleSplicable();
         this.speedY = 0;
+        this.speedX = 0;
 
         setInterval(() => {
-            if (!gameIsPaused) {
+            if (!gameIsPaused && this.y < 600) {
+                this.y -= this.speedY;
                 this.playAnimation(this.IMAGES_SPLASH);
             }
         }, 1000 / 60);
-    }
-
-    /**
-     * set property to true in order to remove the bottle after 500ms
-     */
-    makeBottleSplicable() {
-        setTimeout(() => {
-           this.isSplicable = true;
-        }, 500);
     }
 
     /**

@@ -142,8 +142,6 @@ class World {
                 this.level.endboss.hitEndboss();
                 this.endbossHealthStatusbar.setPercentage(this.level.endboss.energy);
                 bottle.letBottleSplash();
-            } else if (!bottle.energy) {
-                this.removeBottle(bottle);
             }
         })
     }
@@ -155,8 +153,6 @@ class World {
                     bottle.letBottleSplash();
                     let iOfEnemy = this.level.enemies.indexOf(enemy);
                     this.level.enemies.splice(iOfEnemy, 1);
-                } else if (!bottle.energy) {
-                    this.removeBottle(bottle);
                 }
             })
         })
