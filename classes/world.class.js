@@ -6,7 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     healthStatusbar = new HealthStatusBar();
-    endbossHealthStatusbar = new EndbossHealthStatusbar();
+    endbossHealthStatusbar;
     bottleCounterImg = new BottleCounterImage();
     coinCounterImg = new CoinCounterImage();
     coinCounter = new Counter(105, 110);
@@ -37,9 +37,18 @@ class World {
             if (!gameIsPaused) {
                 this.checkCollisions();
                 this.createThrowableObjects();
+                this.createEndbossStatusbar();
             }
         }, 100);
     }
+
+    createEndbossStatusbar() {
+        if (!this.endbossHealthStatusbar) { 
+            if (this.level.endboss.x - (this.character.x + this.character.width) < 500) {
+                this.endbossHealthStatusbar = new EndbossHealthStatusbar();
+            }
+        }
+    }  
 
     /**
      * create a TO for throwing a bottle and setting a timeout for the next bottle of 500ms
@@ -187,7 +196,9 @@ class World {
         this.addToMap(this.healthStatusbar);
         this.addToMap(this.bottleCounterImg);
         this.addToMap(this.coinCounterImg);
-        this.addToMap(this.endbossHealthStatusbar);
+        if (this.endbossHealthStatusbar) {
+            this.addToMap(this.endbossHealthStatusbar);
+        }
         this.ctx.fillText(this.coinCounter.counter, this.coinCounter.x, this.coinCounter.y);
         this.ctx.fillText(this.bottleCounter.counter, this.bottleCounter.x, this.coinCounter.y);
         this.ctx.translate(this.camera_x, 0);
