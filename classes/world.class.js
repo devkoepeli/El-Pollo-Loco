@@ -39,7 +39,7 @@ class World {
                 this.createThrowableObjects();
                 this.createEndbossStatusbar();
             }
-        }, 100);
+        }, 80);
     }
 
     createEndbossStatusbar() {
@@ -235,8 +235,6 @@ class World {
         // mo is inserted mirrored
 
         mo.drawObject(this.ctx);
-        mo.drawFrame(this.ctx);
-        mo.drawFrameWithoutOffset(this.ctx);
 
         // reset the canvas context to default of saved context before mirroring the context except the mo
         if (mo.otherDirection) {

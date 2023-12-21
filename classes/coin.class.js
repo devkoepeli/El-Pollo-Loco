@@ -4,10 +4,10 @@ class Coin extends DrawableObject {
         './img/8_coin/coin_2.png'
     ];
     offset = {
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20
+        top: 30,
+        right: 30,
+        bottom: 30,
+        left: 30
     };
 
     constructor() {
@@ -15,8 +15,8 @@ class Coin extends DrawableObject {
 
         this.x = 300 + Math.random() * 2100;
         this.y = 355 - Math.random() * 240;
-        this.width = 100;
-        this.height = 100;
+        this.width = 115;
+        this.height = 115;
     }
 
     playSound() {
