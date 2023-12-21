@@ -1,7 +1,7 @@
 class MovableObject extends DrawableObject{
     currentImage = 0;
     speedX = 0.1;
-    angrySpeedX = 1;
+    angrySpeedX = 3;
     otherDirection = false;
     speedY = 0;
     acceleration = 0.25;
@@ -91,7 +91,6 @@ class MovableObject extends DrawableObject{
      */
     playAnimation(images) {
         let i = this.currentImage % images.length;
-        // let i = 0 / 6 = 0 Rest 0; 1 / 6 = 0 Rest 1; 2 / 6 = 0 Rest 2; 5 / 6 = 0 Rest 5; 6 / 6 = 1 Rest 0; 7 / 6 = 1 Rest 1; ...
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;

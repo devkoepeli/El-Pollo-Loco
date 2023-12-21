@@ -44,7 +44,7 @@ class Endboss extends MovableObject {
         top: 50,
         right: 0,
         bottom: 5,
-        left: 0
+        left: 15
     };
     firstAttack = false;
 
@@ -60,6 +60,7 @@ class Endboss extends MovableObject {
         this.y = 50;
         this.width = 275;
         this.height = 400;
+        this.speedX = 0.5;
 
         this.animate();
     }
@@ -96,11 +97,11 @@ class Endboss extends MovableObject {
 
         let walkingDirection = setInterval(() => {
             if (!gameIsPaused && gameHasStarted && !this.firstAttack) {
-                if (this.energy == 100 && this.x > world.character.x + world.character.offset.left) {
+                if (this.energy == 100 && this.x + this.offset.left > world.character.x + world.character.offset.left) {
                     this.otherDirection = false;
                     this.moveLeft();
                 }
-                if (this.energy < 100 && this.x > world.character.x + world.character.offset.left) {
+                if (this.energy < 100 && this.x + this.offset.left > world.character.x + world.character.offset.left) {
                     this.otherDirection = false;
                     this.moveLeftAngry();
                     this.playAudioAngryChicken();
@@ -115,7 +116,7 @@ class Endboss extends MovableObject {
                     this.playAudioAngryChicken();
                 }
             }
-        }, 1000 / 120);
+        }, 1000 / 60);
 
         this.intervalIDs.push(interval100);
         this.intervalIDs.push(walkingAnimation);

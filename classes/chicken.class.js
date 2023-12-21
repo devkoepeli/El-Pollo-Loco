@@ -13,7 +13,7 @@ class Chicken extends MovableObject {
         this.y = 330;
         this.width = 80;
         this.height = 100;
-        this.speedX = 0.1 + Math.random() * 0.3;
+        this.speedX = 0.2 + Math.random() * 0.3;
 
         this.animate();
     }
@@ -29,7 +29,7 @@ class Chicken extends MovableObject {
             if (!gameIsPaused && gameHasStarted) {
                 this.moveLeft();
             }
-        }, 1000 / 120);
+        }, 1000 / 60);
 
         this.intervalIDs.push(walkingAnimation);
         this.intervalIDs.push(moveLeftAnimation);

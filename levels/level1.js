@@ -28,7 +28,9 @@ function initLevel() {
             new BackgroundObject('./img/5_background/layers/1_first_layer/2.png', 2157)
         ],
         [
-            new Cloud()
+            new Cloud('./img/5_background/layers/4_clouds/1.png', 400),
+            new Cloud('./img/5_background/layers/4_clouds/2.png', 1200),
+            new Cloud('./img/5_background/layers/4_clouds/1.png', 2000)
         ],
         [
             new Chicken(),
