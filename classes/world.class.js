@@ -14,6 +14,11 @@ class World {
     throwableObjects = [];
     isThrowing = false;
 
+    /**
+     * based on the canvas a drawing context is created and the draw method is being called
+     * @param {HTMLElement} canvas - stands for the canvas element
+     * @param {object} keyboard - stands for the keyboard object
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.ctx.font = "bold 40px Zabars, serif";
@@ -22,7 +27,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.run();
+        this.startIntervals();
     }
 
     /**
@@ -32,23 +37,37 @@ class World {
         this.character.world = this;
     }
 
-    run() {
+    /**
+     * set interval from the beginning to check for the key functions of the game
+     */
+    startIntervals() {
         setInterval(() => {
             if (!gameIsPaused) {
                 this.checkCollisions();
                 this.createThrowableObjects();
                 this.createEndbossStatusbar();
             }
-        }, 80);
+        }, 60);
     }
 
+    /**
+     * endboss statusbar object is created after character is getting close to endboss
+     */
     createEndbossStatusbar() {
-        if (!this.endbossHealthStatusbar) { 
-            if (this.level.endboss.x - (this.character.x + this.character.width) < 500) {
+        if (!this.endbossHealthStatusbar) {
+            if (this.isCharacterNearEndboss()) {
                 this.endbossHealthStatusbar = new EndbossHealthStatusbar();
             }
         }
-    }  
+    }
+
+    /**
+     * check the distance of character and endboss
+     * @returns boolean value
+     */
+    isCharacterNearEndboss() {
+        return this.level.endboss.x - (this.character.x + this.character.width) < 500;
+    }
 
     /**
      * create a TO for throwing a bottle and setting a timeout for the next bottle of 500ms
@@ -69,6 +88,9 @@ class World {
         }
     }
 
+    /**
+     * call all methods related to a collision
+     */
     checkCollisions() {
         this.checkCollisionEnemies();
         this.checkCollisionEndboss();
@@ -85,13 +107,12 @@ class World {
      */
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
-            // if chicken is jumped on it is dead so therefore no harm to character until removed
-            if (!this.character.isAboveGround() && this.character.isColliding(enemy) && enemy.energy) {
+            if (this.canCharacterGetHit(enemy)) {
                 if (this.character.isAlive()) {
                     this.character.hit();
                     this.healthStatusbar.setPercentage(this.character.energy);
                 }
-            } else if (this.character.isAboveGround && this.character.speedY <= 2 && this.character.isColliding(enemy) && enemy.energy) {
+            } else if (this.canChickenGetHit(enemy)) {
                 this.isCollidingFromTop(enemy);
             } else if (!enemy.energy) {
                 this.removeChicken(enemy);
@@ -100,7 +121,25 @@ class World {
     }
 
     /**
-     * after collision was detected this function replaces the chicken image to dead
+     * true if character is on the ground, colliding and the enemy is alive
+     * @param {object} enemy - stands for the object with which a collision took place
+     * @returns boolean value
+     */
+    canCharacterGetHit(enemy) {
+        return !this.character.isAboveGround() && this.character.isColliding(enemy) && enemy.energy;
+    }
+
+    /**
+     * true if character is in the air, colliding and enemy is alive
+     * @param {object} enemy - stands for the object with which a collision took place
+     * @returns boolean value
+     */
+    canChickenGetHit(enemy) {
+        return this.character.isAboveGround && this.character.speedY <= 2 && this.character.isColliding(enemy) && enemy.energy;
+    }
+
+    /**
+     * after collision was detected this function replaces the chicken image to dead and the character bounces back
      * @param {object} enemy - stands for the object with which a collision took place
      */
     isCollidingFromTop(enemy) {
@@ -119,33 +158,49 @@ class World {
         }
     }
 
-    removeBottle(bottle) {
-        if (bottle.isSplicable) {
-            let iOfBottle = this.throwableObjects.indexOf(bottle);
-            this.throwableObjects.splice(iOfBottle, 1);
-        }
-    }
-
-
+    /**
+     * look for collision of character with endboss and hit character if its the case
+     */
     checkCollisionEndboss() {
         if (this.character.isColliding(this.level.endboss) && this.level.endboss.isAlive()) {
             if (this.character.isAlive()) {
-                this.character.hit();
-                this.healthStatusbar.setPercentage(this.character.energy);
+                this.damageCharacter();
             }
         }
     }
 
+    /**
+     * damage character and update his health status bar
+     */
+    damageCharacter() {
+        this.character.hit();
+        this.healthStatusbar.setPercentage(this.character.energy);
+    }
+
+    /**
+     * look for collision of endboss with bottle, if true hit endboss and destroy the bottle
+     */
     endbossHitByBottle() {
         this.throwableObjects.forEach((bottle) => {
             if (this.level.endboss.isColliding(bottle) && this.level.endboss.isAlive() && bottle.energy) {
-                this.level.endboss.hitEndboss();
-                this.endbossHealthStatusbar.setPercentage(this.level.endboss.energy);
+                this.damageEndboss();
+
                 bottle.letBottleSplash();
             }
         })
     }
 
+    /**
+     * damage endboss and update his health status bar
+     */
+    damageEndboss() {
+        this.level.endboss.hitEndboss();
+        this.endbossHealthStatusbar.setPercentage(this.level.endboss.energy);
+    }
+
+    /**
+     * look for collision of chicken with bottle, if true chicken gets removed from canvas immediately
+     */
     chickenHitByBottle() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
@@ -158,26 +213,48 @@ class World {
         })
     }
 
+    /**
+     * if coin was collected increase the coin counter by 1
+     */
     increaseCoinCounter() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
-                let iOfCoin = this.level.coins.indexOf(coin);
-                coin.playSound();
-                this.level.coins.splice(iOfCoin, 1);
+                this.removeCoin(coin);
                 this.coinCounter.counter++;
             }
         })
     }
 
+    /**
+     * remove the coin from its array and therefore from the canvas
+     * @param {object} coin - stands for the object with which collision took place
+     */
+    removeCoin(coin) {
+        let iOfCoin = this.level.coins.indexOf(coin);
+        coin.playSound();
+        this.level.coins.splice(iOfCoin, 1);
+    }
+
+    /**
+     * if bottle was collected increase the bottle counter by 1
+     */
     increaseBottleCounter() {
         this.level.bottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
-                let iOfBottle = this.level.bottles.indexOf(bottle);
-                bottle.playSound();
-                this.level.bottles.splice(iOfBottle, 1);
+                this.removeBottle(bottle);
                 this.bottleCounter.counter++;
             }
         })
+    }
+
+    /**
+     * remove the bottle from its array and therefore from the canvas
+     * @param {object} bottle - stands for the object with which collision took place
+     */
+    removeBottle(bottle) {
+        let iOfBottle = this.level.bottles.indexOf(bottle);
+        bottle.playSound();
+        this.level.bottles.splice(iOfBottle, 1);
     }
 
     /**
@@ -218,6 +295,10 @@ class World {
         })
     }
 
+    /**
+     * method to iterate through the arraya in order to pass the objects to addToMap()
+     * @param {array} objects - includes objects
+     */
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object)
@@ -225,23 +306,25 @@ class World {
     }
 
     /**
-     * draw image for the current object and mirror canvas image if object is moved to the left
+     * draw image for the current object and mirror its image if object is moved to its opposed direction (true)
      * @param {string} mo - MovableObject Object
      */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-        // mo is inserted mirrored
 
         mo.drawObject(this.ctx);
 
-        // reset the canvas context to default of saved context before mirroring the context except the mo
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
 
+    /**
+     * object gets flipped facing the other direcion through mirroring the canvas drawing context
+     * @param {object} mo - stands for the movable object
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -249,6 +332,10 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * reset the canvas context to default of saved context before mirroring the context from flipImage() 
+     * @param {object} mo - stands for the movable object
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

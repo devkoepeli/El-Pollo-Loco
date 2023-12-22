@@ -19,11 +19,9 @@ let sounds = {
 let gameIsPaused = false;
 let gameHasStarted = false;
 
-
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
 document.addEventListener('DOMContentLoaded', initLevel);
-
 
 /**
  * This function detects the key code, if equal to one of the values - keyboard property is set to true
@@ -50,7 +48,6 @@ function keyDown(e) {
     }
 }
 
-
 /**
  * this function checks for equality in the released key - if true keyboard property is set to false
  * @param {object} e - the keydown event object is passed 
@@ -76,7 +73,10 @@ function keyUp(e) {
     }
 }
 
-
+/**
+ * this function initializes the touch events on the control buttons for the mobile layout
+ * and sets the keyboard property to true/false depending on the touch event
+ */
 function bindBtsTouchEvents() {
     document.getElementById('btn-left').addEventListener('touchstart', (e) => {
         e.preventDefault();
@@ -119,7 +119,9 @@ function bindBtsTouchEvents() {
     });
 }
 
-
+/**
+ * show the canvas and initialize the game
+ */
 function startGame() {
     const startScreen = document.getElementById('start-screen');
     const canvas = document.getElementById('canvas-container');
@@ -131,7 +133,10 @@ function startGame() {
     bindBtsTouchEvents();
 }
 
-
+/**
+ * remove the end screen and restart the game
+ * @param {string} result - stands for either 'victory' or 'defeat'
+ */
 function restartGame(result) {
     if (result) {
         document.getElementById('end-screen').classList.add('d-none');
@@ -145,7 +150,9 @@ function restartGame(result) {
     initGame();
 }
 
-
+/**
+ * initialise the game by creating the world object
+ */
 function initGame() {
     gameHasStarted = true;
     gameIsPaused = false;
@@ -156,7 +163,10 @@ function initGame() {
     sounds.gameMusic.play();
 }
 
-
+/**
+ * show the right popup according to the clicked element
+ * @param {string} section - stands for either 'control' or 'introduction'
+ */
 function showPopup(section) {
     const controlDiv = document.getElementById('control-container');
     const introductionDiv = document.getElementById('introduction-container');
@@ -168,7 +178,10 @@ function showPopup(section) {
     }
 }
 
-
+/**
+ * close the right popup according to the clicked element
+ * @param {string} section - stands for either 'control' or 'introduction'
+ */
 function closePopUp(section) {
     if (section === 'control') {
         document.getElementById('control-overview').remove();
@@ -177,7 +190,10 @@ function closePopUp(section) {
     }
 }
 
-
+/**
+ * change the icon to its counterpart
+ * @param {string} icon - stands for the clicked icon
+ */
 function changeIcon(icon) {
     const pauseIcon = document.getElementById('pause-icon');
     const playIcon = document.getElementById('play-icon');
@@ -201,7 +217,9 @@ function changeIcon(icon) {
     }
 }
 
-
+/**
+ * if game gets restarted pause icon should always be displayed from the start
+ */
 function checkPauseIcon() {
     const playIcon = document.getElementById('play-icon');
 
@@ -211,7 +229,10 @@ function checkPauseIcon() {
     }
 }
 
-
+/**
+ * mute/unmute all the sounds if button is clicked 
+ * @param {string} action - stands for either 'play' or 'pause'
+ */
 function handleMusic(action) {
     if (action === 'play') {
         for (let audio in sounds) {
@@ -224,7 +245,9 @@ function handleMusic(action) {
     }
 }
 
-
+/**
+ * pause all sound effects from the objects except the core music when game is finished
+ */
 function pauseAllAudio() {
     for (let audio in sounds) {
         if (audio != 'gameMusic' && audio != 'victory' && audio != 'defeat') {
@@ -233,7 +256,9 @@ function pauseAllAudio() {
     }
 }
 
-
+/**
+ * toggle between fullscreen
+ */
 function toggleFullscreen() {
     let gameContainer = document.getElementById('game-container');
   
@@ -247,7 +272,7 @@ function toggleFullscreen() {
 }
 
 /**
- * pause the game onclick through setting variable to true to stop all ongoing object intervals from executing
+ * pause the game onclick through setting gameIsPaused variable to true to stop all ongoing object intervals from executing
  */
 function togglePause() {
     if (document.getElementById('pause-icon')) {
@@ -259,7 +284,6 @@ function togglePause() {
     }
 }
 
-
 /**
  * clear all intervals - intervals return a unique id with which one can access the specific interval
  * e.g. animationInterval has the ID 10
@@ -270,6 +294,10 @@ function stopGame() {
     }
 }
 
+/**
+ * when game is finished show the right endscreen depending on the outcome of the game
+ * @param {string} result - stands for either 'victory' or 'defeat'
+ */
 async function gameOver(result) {
     const endScreen = document.getElementById('end-screen');
     const resultContainer = document.getElementById(`${result}`);
@@ -279,17 +307,25 @@ async function gameOver(result) {
         const htmlContent = result === 'victory' ? victoryHTML() : defeatHTML();
         endScreen.innerHTML += htmlContent;
 
-        new Promise(resolve => setTimeout(() => {
-            document.getElementById(`${result}-img`).classList.add('op-1');
-            resolve();
-        }, 200));
-        new Promise(resolve => setTimeout(() => {
-            document.getElementById(`${result}-img`).classList.remove('op-1');
-            resolve();
-        }, 3000));
-        new Promise(resolve => setTimeout(() => {
-            document.getElementById(`${result}-btn`).classList.add('op-1');
-            resolve();
-        }, 3000));
+        this.showEndScreen(result);
     }
+}
+
+/**
+ * depending on the outcome of the game the html elements are being animated seqentiually
+ * @param {string} result - stands for either 'victory' or 'defeat'
+ */
+function showEndScreen(result) {
+    new Promise(resolve => setTimeout(() => {
+        document.getElementById(`${result}-img`).classList.add('op-1');
+        resolve();
+    }, 200));
+    new Promise(resolve => setTimeout(() => {
+        document.getElementById(`${result}-img`).classList.remove('op-1');
+        resolve();
+    }, 3000));
+    new Promise(resolve => setTimeout(() => {
+        document.getElementById(`${result}-btn`).classList.add('op-1');
+        resolve();
+    }, 3000));
 }

@@ -47,15 +47,15 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.applyGravitation()
         this.speedY = 9;
-        this.speedX = 22;
+        this.speedX = 20;
         
         if (!this.otherDirection) {
-            let throwToRight = setInterval(() => this.throwToTheRight(), 50);
+            let throwToRight = setInterval(() => this.throwToTheRight(), 40);
             this.playThrowingSound();
             this.intervalIDs.push(throwToRight);
         } else {
             this.x -= 80;
-            let throwToLeft = setInterval(() => this.throwToTheLeft(), 50);
+            let throwToLeft = setInterval(() => this.throwToTheLeft(), 40);
             this.playThrowingSound();
             this.intervalIDs.push(throwToLeft);
         }
