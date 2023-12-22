@@ -57,7 +57,7 @@
             <div id="canvas-container" class="canvas-container d-none">
                 <canvas class="canvas" id="canvas" width="720" height="480"></canvas>
                 <div id="icons" class="icons">
-                    <div onclick="showPopup('control')" class="icon-container">
+                    <div onclick="showPopup('control')" class="icon-container icon-desktop">
                         <img id="control-icon" class="icon" src="./img/11_icons/control.svg" alt="Control Icon">
                     </div>
                     <div class="icons-center">
@@ -71,12 +71,34 @@
                             <img id="unmute-icon" class="icon" src="./img/11_icons/unmute.svg" alt="Mute Icon">
                         </div>
                     </div>
-                    <div onclick="toggleFullscreen()" class="icon-container">
+                    <div onclick="toggleFullscreen()" class="icon-container icon-desktop">
                         <img id="fullscreen-icon" class="icon" src="./img/11_icons/fullscreen.svg" alt="Fullscreen Icon">
                     </div>
                 </div>
+                <div id="icons-mobile" class="icons-mobile">
+                    <div class="icons-left">
+                        <div class="icon-container">
+                            <img id="btn-left" class="icon" src="./img/11_icons/arrow-left.svg" alt="Move Left Icon">
+                        </div>
+                        <div class="icon-container">
+                            <img id="btn-right" class="icon" src="./img/11_icons/arrow-right.svg" alt="Move Right Icon">
+                        </div>
+                    </div>
+                    <div class="icons-right">
+                        <div class="icon-container">
+                            <img id="btn-jump" class="icon" src="./img/11_icons/arrow-up.svg" alt="Jump Icon">
+                        </div>
+                        <div class="icon-container">
+                            <img id="btn-throw" class="icon" src="./img/11_icons/bottle.svg" alt="Throw Icon">
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div id="end-screen" class="end-screen d-none"></div>
+        </div>
+        <div class="rotate-info">
+            <img class="rotate-device" src="./img/rotate-device.png" alt="Rotate device Info">
         </div>
     </div>
 

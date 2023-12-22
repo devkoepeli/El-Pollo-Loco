@@ -1,9 +1,9 @@
 class Bottle1 extends DrawableObject {
     offset = {
         top: 10,
-        right: 0,
+        right: 10,
         bottom: 5,
-        left: 10
+        left: 15
     };
 
     constructor() {
@@ -11,7 +11,7 @@ class Bottle1 extends DrawableObject {
 
         this.x = 300 + Math.random() * 2100;
         this.y = 355;
-        this.width = 55;
+        this.width = 65;
         this.height = 80;
     }
 
