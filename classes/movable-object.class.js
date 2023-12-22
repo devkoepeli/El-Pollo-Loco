@@ -10,6 +10,9 @@ class MovableObject extends DrawableObject{
     isSplicable = false;
     intervalIDs = [];
 
+    /**
+     * function to pull current object back to the ground by decreasing its y-coordinate every 100ms
+     */
     applyGravitation() {
         setInterval(() => {
             if (!gameIsPaused && this.isAboveGround() || !gameIsPaused && this.speedY > 0) {
@@ -20,7 +23,7 @@ class MovableObject extends DrawableObject{
     }
 
     /**
-     * if instance is throwableobject - object should fall infinitely otherwise only to ground
+     * if instance is throwableobject - object should fall below the ground otherwise (character) on the ground
      * @returns - boolean value
      */
     isAboveGround() {
@@ -45,17 +48,25 @@ class MovableObject extends DrawableObject{
     }
 
     /**
-     * subtract 5 of energy level with every hit from enemies and save the time of the current hit
+     * subtract the number of energy level with every hit from enemies and save the time of the current hit
      */
     hit() {
         this.energy -= 2.5;
         this.lastHit = new Date().getTime();
     }
 
+    /**
+     * is energy of the object bigger than 0
+     * @returns boolean value
+     */
     isAlive() {
         return this.energy > 0;
     }
 
+    /**
+     * is energy of object equal to 0
+     * @returns boolean value
+     */
     isDead() {
         return this.energy == 0;
     }
@@ -69,18 +80,30 @@ class MovableObject extends DrawableObject{
         return timePassed < 400;
     }
 
+    /**
+     * move the object to the right by increasing its x-coordinate all xxxms according to interval time
+     */
     moveRight() {
         this.x += this.speedX;
     }
 
+    /**
+     * move the object to the left by decrasing its x-coordinate all xxxms according to interval time
+     */
     moveLeft() {
         this.x -= this.speedX;
     }
 
+    /**
+     * move the object to the left by decrasing its x-coordinate all xxxms according to interval time
+     */
     moveLeftAngry() {
         this.x -= this.angrySpeedX;
     }
 
+    /**
+     * move the object to the right by increasing its x-coordinate all xxxms according to interval time
+     */
     moveRightAngry() {
         this.x += this.angrySpeedX
     }
@@ -96,6 +119,11 @@ class MovableObject extends DrawableObject{
         this.currentImage++;
     }
 
+    /**
+     * show death images of either character or endboss only once and then stop the game
+     * @param {array} images - includes all images
+     * @param {string} result - either 'victory' or 'defeat'
+     */
     async playAnimationOnce(images, result) {
         for (const image of images) {
             await new Promise(resolve => setTimeout(() => {
@@ -109,15 +137,24 @@ class MovableObject extends DrawableObject{
         gameOver(result);
     }
 
+    /**
+     * speedY will be subtracted from y-coordinate of object when called then gravitation force has an effect
+     */
     jump() {
         this.speedY = 10;
     }
 
+    /**
+     * if character jumps on enemies it bounces back into the air
+     */
     bounceBack() {
         this.speedY = 9;
         this.playBounceAudio();
     }
 
+    /**
+     * play bouncing audio
+     */
     playBounceAudio() {
         sounds.character_bounce.currentTime = 0;
         sounds.character_bounce.volume = 0.15;

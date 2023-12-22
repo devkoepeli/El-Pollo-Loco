@@ -1,0 +1,152 @@
+@media only screen and (max-width: 991.98px) {
+    .icons {
+        position: absolute;
+        top: 1rem;
+        bottom: unset;
+        justify-content: center;
+    }
+
+    .icon-desktop {
+        display: none;
+    }
+
+    .icons-mobile {
+        display: flex;
+    }
+
+    .icon-container:hover {
+        background-color: unset;
+    }
+
+    .icon-container:active {
+        background-color: #FFC100;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .content {
+        justify-content: center;
+    }
+
+    .title {
+        padding-top: 0;
+    }
+
+    .game-container {
+        width: 100%;
+    }
+
+    .canvas {
+        width: 100%;
+    }
+
+    .end-screen {
+        width: 100%;
+    }
+
+    .main-button {
+        font-size: 1.75rem;
+    }
+
+    .start-introduction,
+    .start-control {
+        font-size: 1.5rem;
+    }
+
+    .introduction-info {
+        font-size: 1.25rem;
+    }
+
+    .control-keys-container {
+        gap: 2rem;
+    }
+}
+
+@media only screen and (max-width: 575.98px) {
+    .rotate-info {
+        display: flex;
+    }
+
+    .start-navigation {
+        left: 2rem;
+        right: 2rem;
+        gap: 1rem;
+    }
+
+    .start-introduction,
+    .start-control {
+        font-size: 1.1rem;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    .title {
+        display: none;
+    }
+
+    .canvas {
+        height: 100vh;
+    }
+
+    .start-screen-img {
+        height: 100vh;
+    }
+
+    .end-screen {
+        height: 100vh;
+    }
+
+    .defeat-img,
+    .victory-img {
+        height: 100vh;
+    }
+
+    .icons {
+        position: absolute;
+        top: 1rem;
+        bottom: unset;
+        justify-content: center;
+    }
+
+    .icons-center {
+        gap: 0.5rem;
+    }
+
+    .icon-desktop {
+        display: none;
+    }
+
+    .icons-mobile {
+        display: flex;
+    }
+
+    .icon-container:hover {
+        background-color: unset;
+    }
+
+    .icon-container:active {
+        background-color: #FFC100;
+    }
+
+    .rotate-info {
+        display: none;
+    }
+
+    .start-navigation {
+        justify-content: center;
+    }
+
+    .start-introduction,
+    .start-control {
+        display: none;
+    }
+
+    .introduction {
+        overflow: scroll;
+        padding-top: 10rem;
+    }
+
+    .control-keys-container {
+        gap: 2rem;
+    }
+}

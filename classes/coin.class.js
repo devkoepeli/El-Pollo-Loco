@@ -10,6 +10,9 @@ class Coin extends DrawableObject {
         left: 30
     };
 
+    /**
+     * load image and assign all key values to inherited properties to draw on canvas - every created coin gets random x-/y-coordinates
+     */
     constructor() {
         super().loadImage(this.IMAGES_COIN[1]);
 
@@ -19,6 +22,9 @@ class Coin extends DrawableObject {
         this.height = 115;
     }
 
+    /**
+     * play collecting coin sound
+     */
     playSound() {
         sounds.coin_collecting.volume = 0.3;
         sounds.coin_collecting.currentTime = 0;

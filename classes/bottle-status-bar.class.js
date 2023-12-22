@@ -9,6 +9,9 @@ class BottleStatusBar extends MovableObject {
     ];
     percentage = 100;
 
+    /**
+     * load first image and all other images and define the key values for the draw method
+     */
     constructor() {
         super().loadImage(this.IMAGES[5]);
         this.loadImages(this.IMAGES);
@@ -31,7 +34,7 @@ class BottleStatusBar extends MovableObject {
 
     /**
      * this function checks the current percentage to return the correct index
-     * @returns - number
+     * @returns number
      */
     resolvePercentageIndex() {
         if (this.percentage === 100) {

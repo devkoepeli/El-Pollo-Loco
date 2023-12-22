@@ -6,6 +6,9 @@ class Bottle2 extends DrawableObject {
         left: 15
     };
 
+    /**
+     * load first image and define the key values for the draw method for every created bottle
+     */
     constructor() {
         super().loadImage('./img/6_salsa_bottle/2_salsa_bottle_on_ground.png');
 
@@ -15,6 +18,9 @@ class Bottle2 extends DrawableObject {
         this.height = 80;
     }
 
+    /**
+     * play collecting the bottle audio
+     */
     playSound() {
         sounds.bottle_collecting.currentTime = 0;
         sounds.bottle_collecting.play();

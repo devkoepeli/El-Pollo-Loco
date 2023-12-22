@@ -11,6 +11,10 @@ class SmallChicken extends MovableObject {
         left: 10
     };
 
+    /**
+     * load the images / first image and define the key values of this object
+     * @param {number} x - stands for the x-coordinate
+     */
     constructor(x) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -24,21 +28,33 @@ class SmallChicken extends MovableObject {
         this.animate();
     }
 
-    animate() {
-        let walkingAnimation = setInterval(() => {
-            if (!gameIsPaused && gameHasStarted) {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 130);
-
-        let moveLeftAnimation = setInterval(() => {
-            if (!gameIsPaused && gameHasStarted) {
-                this.moveLeft();
-            }
-        }, 1000 / 60);
+    /**
+     * set interval to check all xxms to play animation/ move chicken and save them in property
+     */
+     animate() {
+        let walkingAnimation = setInterval(() => this.playWalkingAnimation(), 130);
+        let moveLeftAnimation = setInterval(() => this.moveLeft(), 1000 / 60);
 
         this.intervalIDs.push(walkingAnimation);
         this.intervalIDs.push(moveLeftAnimation);
+    }
+
+    /**
+     * show walking images
+     */
+    playWalkingAnimation() {
+        if (!gameIsPaused && gameHasStarted) {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
+    }
+
+    /**
+     * move chicken to the left
+     */
+    moveLeft() {
+        if (!gameIsPaused && gameHasStarted) {
+            super.moveLeft();
+        }
     }
 
     /**
@@ -50,6 +66,9 @@ class SmallChicken extends MovableObject {
         }
     }
 
+    /**
+     * set chicken energy to 0 and replace the chicken image
+     */
     killChicken() {
         this.energy = 0;
         this.stopChickenAnimation();

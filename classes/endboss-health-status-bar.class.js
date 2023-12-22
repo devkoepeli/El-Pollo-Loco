@@ -9,6 +9,9 @@ class EndbossHealthStatusbar extends DrawableObject {
     ];
     percentage = 100;
 
+    /**
+     * load images / first image and assign base values to inherited properties to draw the object
+     */
     constructor() {
         super().loadImage(this.IMAGES[5]);
         this.loadImages(this.IMAGES);

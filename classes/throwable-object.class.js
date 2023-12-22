@@ -21,6 +21,12 @@ class ThrowableObject extends MovableObject {
     ];
     otherDirection;
 
+    /**
+     * load the images of the bottle and set the base values relative to the position of the character
+     * @param {number} characterX - stands for the x-coordinate
+     * @param {number} characterY - stands for the y-coordinate
+     * @param {boolean} isOtherDirection - either true or false
+     */
     constructor(characterX, characterY, isOtherDirection) {
         super().loadImage('./img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_ROTATION);
@@ -41,27 +47,37 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.applyGravitation()
         this.speedY = 9;
-        this.speedX = 8;
+        this.speedX = 22;
         
         if (!this.otherDirection) {
-            let throwToRight = setInterval(() => {
-                if (this.x < 3000 && !gameIsPaused) {
-                    this.x += this.speedX;
-                    this.playAnimation(this.IMAGES_ROTATION);
-                }
-            }, 1000 / 60);
+            let throwToRight = setInterval(() => this.throwToTheRight(), 50);
             this.playThrowingSound();
             this.intervalIDs.push(throwToRight);
         } else {
             this.x -= 80;
-            let throwToLeft = setInterval(() => {
-                if (this.x > -2000 && !gameIsPaused) {
-                    this.x -= this.speedX;
-                    this.playAnimation(this.IMAGES_ROTATION);
-                }
-            }, 1000 / 60);
+            let throwToLeft = setInterval(() => this.throwToTheLeft(), 50);
             this.playThrowingSound();
             this.intervalIDs.push(throwToLeft);
+        }
+    }
+
+    /**
+     * move the object to the right as long as the x-coordinate of the object is smaller than 3000
+     */
+    throwToTheRight() {
+        if (this.x < 3000 && !gameIsPaused) {
+            this.x += this.speedX;
+            this.playAnimation(this.IMAGES_ROTATION);
+        }
+    }
+ 
+    /**
+     * move the object to the left as long as the x-coordinate of the object is greater than -2000
+     */
+     throwToTheLeft() {
+        if (this.x > -2000 && !gameIsPaused) {
+            this.x -= this.speedX;
+            this.playAnimation(this.IMAGES_ROTATION);
         }
     }
 
@@ -93,12 +109,29 @@ class ThrowableObject extends MovableObject {
         this.speedY = 0;
         this.speedX = 0;
 
-        setInterval(() => {
-            if (!gameIsPaused && this.y < 600) {
-                this.y -= this.speedY;
+        let splashAnimation = setInterval(() => {
+            if (this.isBottleAboveGround()) {
                 this.playAnimation(this.IMAGES_SPLASH);
+            } else if (this.isBottleBelowGround()) {
+                clearInterval(splashAnimation);
             }
         }, 1000 / 60);
+    }
+
+    /**
+     * check if bottle is above ground in order to limit the animation
+     * @returns boolean value
+     */
+    isBottleAboveGround() {
+        return !gameIsPaused && this.y < 500;
+    }
+
+    /**
+     * check if bottle is below ground
+     * @returns boolean value
+     */
+    isBottleBelowGround() {
+        return this.y > 500;
     }
 
     /**

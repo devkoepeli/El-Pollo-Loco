@@ -1,3 +1,7 @@
+/**
+ * returns the html code for the control overview popup on start screen and during the game
+ * @returns string with html
+ */
 function controlOverviewHTML() {
     return /*html*/ `
         <div id="control-overview" class="control-overview">
@@ -32,7 +36,10 @@ function controlOverviewHTML() {
     `;
 }
 
-
+/**
+ * returns the html code for the introduction popup on start screen
+ * @returns string with html
+ */
 function introductionHTML() {
     return /*html*/`
         <div id="introduction" class="introduction">
@@ -52,7 +59,10 @@ function introductionHTML() {
     `;
 }
 
-
+/**
+ * returns the html code for the game over end screen
+ * @returns string with html code
+ */
 function victoryHTML() {
     return /*html*/`
         <div id="victory" class="victory">
@@ -64,7 +74,10 @@ function victoryHTML() {
     `;
 }
 
-
+/**
+ * returns the html code for the you lost end screen
+ * @returns string with html code
+ */
 function defeatHTML() {
     return /*html*/`
         <div id="defeat" class="defeat">

@@ -9,6 +9,9 @@ class CoinStatusBar extends DrawableObject {
     ];
     percentage = 100;
 
+    /**
+     * load image for canvas and assign all key values to inherited properties
+     */
     constructor() {
         super().loadImage(this.IMAGES[5]);
         this.loadImages(this.IMAGES);

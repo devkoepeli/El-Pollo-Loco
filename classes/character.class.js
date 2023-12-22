@@ -65,8 +65,10 @@ class Character extends MovableObject {
     };
     timePassedIdling = 0;
 
+    /**
+     * load all images, set base values and call the animation and gravitation methods
+     */
     constructor() {
-        // first image needs to be loaded
         super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_IDLING);
         this.loadImages(this.IMAGES_SLEEPING);
@@ -84,75 +86,178 @@ class Character extends MovableObject {
         this.animate();
         this.applyGravitation();
     }
-    
+
+    /**
+     * this function calls the methods to start from the beginning the move and animate intervals
+     */
     animate() {
         this.moveInterval();
         this.animateInterval();
     }
 
+    /**
+     * interval with 60 fps is set to check for the keyboard values for the right movements
+     */
     moveInterval() {
         let movingInterval = setInterval(() => {
             if (!gameIsPaused) {
-                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                if (this.canMoveRight())
                     this.moveRight();
-                    this.otherDirection = false;
-                    if (!this.isAboveGround()) {
-                        sounds.character_walking.play();
-                    }
-                }
-    
-                if (this.world.keyboard.LEFT && this.x > -600) {
+                if (this.canMoveLeft())
                     this.moveLeft();
-                    this.otherDirection = true;
-                    if (!this.isAboveGround()) {
-                        sounds.character_walking.play();
-                    }
-                }
-    
-                if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                if (this.isNotWalking())
                     sounds.character_walking.pause();
-                }
-    
-                // y-coordinate gets subtracted by 5 then gravitation force has an effect
-                if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                if (this.canJump())
                     this.jump();
-                    sounds.character_walking.pause();
-                    sounds.character_jumping.play();
-                }
-    
+
                 this.world.camera_x = -this.x + 100;
             }
         }, 1000 / 60);
         this.intervalIDs.push(movingInterval);
     }
 
+    /**
+     * if keyboard property true meaning key is pressed and if character is behind the outermost point
+     * @returns boolean value
+     */
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    }
+
+    /**
+     * if keyboard property true meaning key is pressed and if character is in front of the outermost point
+     * @returns boolean value
+     */
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > -600;
+    }
+
+    /**
+     * if keyboard property false meaning keys are not pressed
+     * @returns boolean value
+     */
+    isNotWalking() {
+        return !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
+    }
+
+    /**
+     * if keyboard property true meaning key is pressed and if character is on the ground
+     * @returns boolean value
+     */
+    canJump() {
+        return this.world.keyboard.SPACE && !this.isAboveGround();
+    }
+
+    /**
+     * move character to the right and play audio
+     */
+    moveRight() {
+        super.moveRight();
+        this.otherDirection = false;
+        if (!this.isAboveGround()) {
+            sounds.character_walking.play();
+        }
+    }
+
+    /**
+     * move character to the left and play audio
+     */
+    moveLeft() {
+        super.moveLeft();
+        this.otherDirection = true;
+        if (!this.isAboveGround()) {
+            sounds.character_walking.play();
+        }
+    }
+
+    /**
+     * let character jump
+     */
+    jump() {
+        super.jump();
+        sounds.character_walking.pause();
+        sounds.character_jumping.play();
+    }
+
+    /**
+     * interval to check all 90ms to play the right animation
+     */
     animateInterval() {
-        let animationInterval = setInterval(() => { 
+        let animationInterval = setInterval(() => {
             if (!gameIsPaused) {
                 if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT);
-                    sounds.character_hurt.play();
-                    this.timePassedIdling = 0;
+                    this.playHurtAnimation();
                 } else if (this.isDead()) {
-                    this.playAnimationOnce(this.IMAGES_DEAD, 'defeat');
-                    this.playAudioDeath();
-                    this.stopCharacter();
+                    this.killCharacter();
                 } else if (this.isAboveGround()) {
-                    this.playAnimation(this.IMAGES_JUMPING);
-                    this.timePassedIdling = 0;
-                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                    this.timePassedIdling = 0;
+                    this.playJumpAnimation();
+                } else if (this.canWalk()) {
+                    this.playWalkAnimation();
                 } else if (!this.isAboveGround()) {
-                    this.timePassedIdling += 90;
-                    this.playAnimation(this.IMAGES_IDLING);
-                    if (this.timePassedIdling > 3000) {
-                        this.playAnimation(this.IMAGES_SLEEPING);
-                    }
+                    this.playIdleAnimation();
+                    if (this.isAbsent()) this.playAnimation(this.IMAGES_SLEEPING);
                 }
             }
         }, 90);
         this.intervalIDs.push(animationInterval);
+    }
+
+    /**
+     * show hurt images and set passed idling time to 0
+     */
+    playHurtAnimation() {
+        this.playAnimation(this.IMAGES_HURT);
+        sounds.character_hurt.play();
+        this.timePassedIdling = 0;
+    }
+
+    /**
+     * show hurt images, play death audio and stop character animations
+     */
+    killCharacter() {
+        this.playAnimationOnce(this.IMAGES_DEAD, 'defeat');
+        this.playAudioDeath();
+        this.stopCharacter();
+    }
+
+    /**
+     * show jump images and set passed idling time to 0
+     */
+    playJumpAnimation() {
+        this.playAnimation(this.IMAGES_JUMPING);
+        this.timePassedIdling = 0;
+    }
+
+    /**
+     * if keyboard property true meaning key is pressed
+     * @returns boolean value
+     */
+    canWalk() {
+        return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+    }
+
+    /**
+     * show walking images
+     */
+    playWalkAnimation() {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.timePassedIdling = 0;
+    }
+
+    /**
+     * show idling images and increase time passed idling
+     */
+    playIdleAnimation() {
+        this.timePassedIdling += 90;
+        this.playAnimation(this.IMAGES_IDLING);
+    }
+
+    /**
+     * is character not being moved for over 3s and is not throwing a bottle
+     * @returns boolean value
+     */
+    isAbsent() {
+        return this.timePassedIdling > 3000 && !this.world.isThrowing;
     }
 
     /**
@@ -164,6 +269,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * pause/play the right audio including the game lost audio and set audio properties
+     */
     playAudioDeath() {
         sounds.character_walking.pause();
         sounds.character_dying.currentTime = 0;
