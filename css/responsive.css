@@ -149,4 +149,8 @@
     .control-keys-container {
         gap: 2rem;
     }
+
+    .icon-container {
+        padding: 0.6rem;
+    }
 }

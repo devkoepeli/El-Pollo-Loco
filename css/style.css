@@ -41,6 +41,7 @@ body {
     position: relative;
     max-width: 720px;
     max-height: 480px;
+    height: 100%;
 }
 
 .canvas-container {
@@ -53,6 +54,7 @@ body {
 
 .start-screen {
     width: 100%;
+    height: 100%;
     aspect-ratio: 720 / 480;
     display: flex;
     justify-content: center;
