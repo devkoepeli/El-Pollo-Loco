@@ -84,6 +84,14 @@
         display: none;
     }
 
+    body {
+        height: 100vh;
+    }
+
+    .canvas-container {
+        height: 100vh;
+    }
+
     .canvas {
         height: 100vh;
     }
