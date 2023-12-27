@@ -42,9 +42,9 @@ class Endboss extends MovableObject {
     ];
     offset = {
         top: 50,
-        right: 0,
+        right: 10,
         bottom: 5,
-        left: 15
+        left: 20
     };
     firstAttack = false;
 

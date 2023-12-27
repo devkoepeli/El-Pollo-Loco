@@ -59,9 +59,9 @@ class Character extends MovableObject {
     world;
     offset = {
         top: 100,
-        right: 20,
+        right: 30,
         bottom: 10,
-        left: 20
+        left: 30
     };
     timePassedIdling = 0;
 
