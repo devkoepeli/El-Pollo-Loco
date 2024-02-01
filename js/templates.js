@@ -66,7 +66,7 @@ function introductionHTML() {
 function victoryHTML() {
     return /*html*/`
         <div id="victory" class="victory">
-            <img id="victory-img" class="victory-img" src="./img/9_intro_outro_screens/game_over/game over.png" alt="Game Over">
+            <img id="victory-img" class="victory-img" src="./img/9_intro_outro_screens/game_over/you_win.png" alt="Game Over">
             <div id="victory-btn" class="victory-button-container">
                 <button onclick="restartGame('victory')" class="main-button">Play Again</button>
             </div>

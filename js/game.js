@@ -275,12 +275,15 @@ function toggleFullscreen() {
  * pause the game onclick through setting gameIsPaused variable to true to stop all ongoing object intervals from executing
  */
 function togglePause() {
+    const pauseNote = document.getElementById('pause-note');
     if (document.getElementById('pause-icon')) {
         gameIsPaused = true;
         changeIcon('pause');
+        pauseNote.classList.add('d-flex');
     } else {
         gameIsPaused = false;
         changeIcon('play');
+        pauseNote.classList.remove('d-flex');
     }
 }
 

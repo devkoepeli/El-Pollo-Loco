@@ -364,3 +364,28 @@ body {
     height: 100%;
     object-fit: cover;
 }
+
+.pause-note-container {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    bottom: 100px;
+    left: 100px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.pause-note {
+    cursor: unset;
+    transition: unset;
+    pointer-events: none;
+}
+
+.pause-note:hover {
+    transform: unset;
+}
+
+.d-flex {
+    display: flex;
+}
